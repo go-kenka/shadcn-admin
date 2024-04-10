@@ -1,4 +1,8 @@
 import { Button } from '@/components/custom/button'
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
+import { Search } from '@/components/search'
+import ThemeSwitch from '@/components/theme-switch'
+import { TopNav } from '@/components/top-nav'
 import {
   Card,
   CardContent,
@@ -6,14 +10,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Search } from '@/components/search'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import ThemeSwitch from '@/components/theme-switch'
-import { TopNav } from '@/components/top-nav'
 import { UserNav } from '@/components/user-nav'
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import { RecentSales } from './components/recent-sales'
 import { Overview } from './components/overview'
+import { RecentSales } from './components/recent-sales'
+import { Welcome } from './components/welcome'
 
 export default function Dashboard() {
   return (
@@ -32,26 +33,31 @@ export default function Dashboard() {
       <LayoutBody className='space-y-4'>
         <div className='flex items-center justify-between space-y-2'>
           <h1 className='text-2xl font-bold tracking-tight md:text-3xl'>
-            Dashboard
+            欢迎您，「管理员」
           </h1>
           <div className='flex items-center space-x-2'>
-            <Button>Download</Button>
+            <Button>分享</Button>
           </div>
         </div>
         <Tabs
           orientation='vertical'
-          defaultValue='overview'
+          defaultValue='welcome'
           className='space-y-4'
         >
           <div className='w-full overflow-x-scroll pb-2'>
             <TabsList>
-              <TabsTrigger value='overview'>Overview</TabsTrigger>
-              <TabsTrigger value='analytics'>Analytics</TabsTrigger>
-              <TabsTrigger value='reports'>Reports</TabsTrigger>
-              <TabsTrigger value='notifications'>Notifications</TabsTrigger>
+              <TabsTrigger value='welcome'>欢迎使用</TabsTrigger>
+              <TabsTrigger value='dashboard'>仪表板</TabsTrigger>
+              <TabsTrigger value='reports'>报表</TabsTrigger>
+              <TabsTrigger value='notifications'>通知中心</TabsTrigger>
             </TabsList>
           </div>
-          <TabsContent value='overview' className='space-y-4'>
+          <TabsContent value='welcome' className='space-y-4'>
+            <div className='h-full w-full items-center justify-center'>
+              <Welcome />
+            </div>
+          </TabsContent>
+          <TabsContent value='dashboard' className='space-y-4'>
             <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
@@ -177,6 +183,12 @@ export default function Dashboard() {
               </Card>
             </div>
           </TabsContent>
+          <TabsContent value='reports' className='space-y-4'>
+            报表处理
+          </TabsContent>
+          <TabsContent value='notifications' className='space-y-4'>
+            通知中心
+          </TabsContent>
         </Tabs>
       </LayoutBody>
     </Layout>
@@ -185,23 +197,23 @@ export default function Dashboard() {
 
 const topNav = [
   {
-    title: 'Overview',
+    title: '欢迎使用',
     href: 'dashboard/overview',
     isActive: true,
   },
   {
-    title: 'Customers',
+    title: '供应商',
+    href: 'dashboard/overview',
+    isActive: false,
+  },
+  {
+    title: '店铺',
     href: 'dashboard/customers',
     isActive: false,
   },
   {
-    title: 'Products',
+    title: '适配器',
     href: 'dashboard/products',
-    isActive: false,
-  },
-  {
-    title: 'Settings',
-    href: 'dashboard/settings',
     isActive: false,
   },
 ]
