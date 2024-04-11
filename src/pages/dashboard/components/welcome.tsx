@@ -1,6 +1,4 @@
 import { Card } from '@/components/ui/card'
-// @ts-ignore
-import Bg from './bg.svg'
 
 const words = [
   '你只管努力，剩下的交给时间。',
@@ -12,6 +10,7 @@ const words = [
   '财源广进，蒸蒸日上。',
   '团结协力共铸辉煌，展望未来蓝图宏伟',
   '风生水起，财源广进',
+  '龙马精神，生龙活虎',
 ]
 
 export function Welcome() {
@@ -23,10 +22,10 @@ export function Welcome() {
     <Card
       className='flex h-[600px] w-full flex-col items-start justify-center pl-4'
       style={{
-        backgroundImage: `url(${Bg})`,
+        backgroundImage: `url('./bg/bg${index()}.svg')`,
         backgroundRepeat: 'no-repeat',
-        backgroundSize: '600px',
-        backgroundPosition: 'right',
+        backgroundSize: '400px',
+        backgroundPosition: 'right bottom',
       }}
     >
       {/* <Panda height={300} width={'100%'} /> */}

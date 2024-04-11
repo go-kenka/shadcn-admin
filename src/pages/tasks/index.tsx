@@ -1,10 +1,13 @@
+import { Button } from '@/components/custom/button'
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
 import { Search } from '@/components/search'
 import ThemeSwitch from '@/components/theme-switch'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
+import { Separator } from '@/components/ui/separator'
 import { UserNav } from '@/components/user-nav'
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import { DataTable } from './components/data-table'
-import { columns } from './components/columns'
-import { tasks } from './data/tasks'
+import { IconPlus } from '@tabler/icons-react'
+import { CompanyCard } from './components/company-card'
+import { myConpanyList } from './data/company'
 
 export default function Tasks() {
   return (
@@ -21,14 +24,34 @@ export default function Tasks() {
       <LayoutBody className='flex flex-col' fixedHeight>
         <div className='mb-2 flex items-center justify-between space-y-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Welcome back!</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>供应商</h2>
             <p className='text-muted-foreground'>
-              Here&apos;s a list of your tasks for this month!
+              当前共有 108 个供应商，建议使用过滤器
             </p>
           </div>
+          <div>
+            <Button>
+              <IconPlus className='mr-2 w-5' /> 添加
+            </Button>
+          </div>
         </div>
-        <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
-          <DataTable data={tasks} columns={columns} />
+        <Separator className='my-4' />
+        <div className='relative'>
+          <ScrollArea>
+            <div className='flex space-x-4 pb-4'>
+              {myConpanyList.map((cm) => (
+                <CompanyCard
+                  key={cm.name}
+                  company={cm}
+                  className='w-[150px]'
+                  aspectRatio='square'
+                  width={150}
+                  height={150}
+                />
+              ))}
+            </div>
+            <ScrollBar orientation='horizontal' />
+          </ScrollArea>
         </div>
       </LayoutBody>
     </Layout>
