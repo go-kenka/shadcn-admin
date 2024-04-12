@@ -26,7 +26,7 @@ export default function Tasks() {
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>供应商</h2>
             <p className='text-muted-foreground'>
-              当前共有 108 个供应商，建议使用过滤器
+              当前共有 {myConpanyList.length} 个供应商
             </p>
           </div>
           <div>

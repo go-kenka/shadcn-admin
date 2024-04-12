@@ -7,31 +7,31 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu'
-import { Company } from '../data/company'
+import { bo } from '@/wailsjs/go/models'
 
-interface AlbumArtworkProps extends React.HTMLAttributes<HTMLDivElement> {
-  company: Company
+interface CompanyProps extends React.HTMLAttributes<HTMLDivElement> {
+  company: bo.Company
   aspectRatio?: 'portrait' | 'square'
   width?: number
   height?: number
 }
 
 export function CompanyCard({
-  company: album,
+  company: cm,
   aspectRatio = 'portrait',
   width,
   height,
   className,
   ...props
-}: AlbumArtworkProps) {
+}: CompanyProps) {
   return (
     <div className={cn('space-y-3', className)} {...props}>
       <ContextMenu>
         <ContextMenuTrigger>
           <div className='overflow-hidden rounded-md'>
             <img
-              src={album.cover}
-              alt={album.name}
+              src={'http://iph.href.lu/300x300?bg=eeeeee'}
+              alt={cm.name}
               width={width}
               height={height}
               className={cn(
@@ -51,9 +51,9 @@ export function CompanyCard({
         </ContextMenuContent>
       </ContextMenu>
       <div className='space-y-1 text-sm'>
-        <h3 className='font-medium leading-none'>{album.name}</h3>
+        <h3 className='font-medium leading-none'>{cm.name}</h3>
         <p className='line-clamp-3 text-xs text-muted-foreground hover:text-wrap'>
-          {album.desc}
+          {cm.desc}
         </p>
       </div>
     </div>
