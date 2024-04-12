@@ -37,20 +37,20 @@ export default function Tasks() {
         </div>
         <Separator className='my-4' />
         <div className='relative'>
-          <ScrollArea>
-            <div className='flex space-x-4 pb-4'>
+          <ScrollArea className='h-[700px]'>
+            <div className='flex flex-wrap gap-4  pb-4'>
               {myConpanyList.map((cm) => (
                 <CompanyCard
                   key={cm.name}
                   company={cm}
-                  className='w-[150px]'
+                  className='w-[150px] shrink-0'
                   aspectRatio='square'
                   width={150}
                   height={150}
                 />
               ))}
             </div>
-            <ScrollBar orientation='horizontal' />
+            <ScrollBar orientation='vertical' />
           </ScrollArea>
         </div>
       </LayoutBody>

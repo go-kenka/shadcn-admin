@@ -45,7 +45,7 @@ export function CompanyCard({
           <ContextMenuItem>查看</ContextMenuItem>
           <ContextMenuItem>编辑</ContextMenuItem>
           <ContextMenuSeparator />
-          <ContextMenuItem className='hover:!text-red-900'>
+          <ContextMenuItem className='hover:!text-red-700'>
             删除
           </ContextMenuItem>
         </ContextMenuContent>
