@@ -6,10 +6,19 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { UserNav } from '@/components/user-nav'
 import { IconPlus } from '@tabler/icons-react'
+import { useEffect } from 'react'
 import { CompanyCard } from './components/company-card'
-import { myConpanyList } from './data/company'
+import { useCompanyStore } from './store/company'
 
 export default function Tasks() {
+
+  const list = useCompanyStore((state) => state.cms)
+  const search = useCompanyStore((state) => state.search)
+
+  useEffect(() => {
+    search("")
+  }, [])
+
   return (
     <Layout>
       {/* ===== Top Heading ===== */}
@@ -26,7 +35,7 @@ export default function Tasks() {
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>供应商</h2>
             <p className='text-muted-foreground'>
-              当前共有 {myConpanyList.length} 个供应商
+              当前共有 {list.length} 个供应商
             </p>
           </div>
           <div>
@@ -39,9 +48,9 @@ export default function Tasks() {
         <div className='relative'>
           <ScrollArea className='h-[700px]'>
             <div className='flex flex-wrap gap-4  pb-4'>
-              {myConpanyList.map((cm) => (
+              {list.map((cm) => (
                 <CompanyCard
-                  key={cm.name}
+                  key={cm.id}
                   company={cm}
                   className='w-[150px] shrink-0'
                   aspectRatio='square'
