@@ -3,23 +3,23 @@ import {
   ArrowUpIcon,
   CaretSortIcon,
   EyeNoneIcon,
-} from '@radix-ui/react-icons'
-import { Column } from '@tanstack/react-table'
+} from '@radix-ui/react-icons';
+import { Column } from '@tanstack/react-table';
 
-import { Button } from '@/components/custom/button'
+import { Button } from '@/components/custom/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { cn } from '@/lib/utils'
+} from '@/components/ui/dropdown-menu';
+import { cn } from '@/lib/utils';
 
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
-  column: Column<TData, TValue>
-  title: string
+  column: Column<TData, TValue>;
+  title: string;
 }
 
 export function DataTableColumnHeader<TData, TValue>({
@@ -28,7 +28,7 @@ export function DataTableColumnHeader<TData, TValue>({
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
-    return <div className={cn(className)}>{title}</div>
+    return <div className={cn(className)}>{title}</div>;
   }
 
   return (
@@ -53,19 +53,19 @@ export function DataTableColumnHeader<TData, TValue>({
         <DropdownMenuContent align='start'>
           <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
             <ArrowUpIcon className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-            Asc
+            升序
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
             <ArrowDownIcon className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-            Desc
+            降序
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
             <EyeNoneIcon className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-            Hide
+            隐藏
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-  )
+  );
 }

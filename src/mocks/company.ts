@@ -2,10 +2,10 @@ import { bo } from '@/wailsjs/go/models';
 import Mock from 'better-mock';
 
 const companyData: bo.Company[] = Mock.mock({
-  'list|10': [
+  'list|1-10': [
     {
-      id: '@id',
-      name: '@name',
+      'id|+1': 1,
+      name: '@ctitle',
       desc: '@cparagraph',
       create_at: '@datetime',
       update_at: '@datetime',

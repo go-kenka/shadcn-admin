@@ -55,7 +55,7 @@ const router = createBrowserRouter([
             }),
           },
           {
-            path: 'company/:cid',
+            path: ':cid',
             lazy: async () => ({
               Component: (await import('./pages/company/list')).default,
             }),

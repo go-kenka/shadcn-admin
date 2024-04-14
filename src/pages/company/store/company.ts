@@ -3,6 +3,7 @@ import { bo } from '@/wailsjs/go/models';
 import {
   CreateCompany,
   DeleteCompany,
+  GetCompany,
   SearchCompanyList,
   UpdateCompany,
 } from '@/wailsjs/go/service/Company';
@@ -11,6 +12,7 @@ import { immer } from 'zustand/middleware/immer';
 
 interface CompanyListState {
   cms: bo.Company[];
+  get: (id: number) => Promise<bo.Company | undefined>;
   add: (name: string, desc: string) => Promise<void>;
   update: (id: number, name: string, desc: string) => Promise<void>;
   delete: (id: number) => Promise<void>;
@@ -20,6 +22,22 @@ interface CompanyListState {
 export const useCompanyStore = create<CompanyListState>()(
   immer((set, get) => ({
     cms: [],
+    get: async (id: number) => {
+      const cm = get().cms.find((cm) => cm.id === id);
+      if (cm) {
+        return Promise.resolve(cm);
+      }
+
+      const resp = await GetCompany(id);
+      if (resp.error) {
+        toast({
+          title: '提示',
+          description: `出错了, 错误内容：${resp.error}`,
+        });
+        return;
+      }
+      return resp.company;
+    },
     add: async (name: string, desc: string) => {
       const resp = await CreateCompany(name, desc);
       if (resp.error) {

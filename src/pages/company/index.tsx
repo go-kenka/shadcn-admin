@@ -1,13 +1,12 @@
-import { Button } from '@/components/custom/button';
 import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
 import { Search } from '@/components/search';
 import ThemeSwitch from '@/components/theme-switch';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { UserNav } from '@/components/user-nav';
-import { IconPlus } from '@tabler/icons-react';
 import { useEffect } from 'react';
 import { CompanyCard } from './components/company-card';
+import CreateCompany from './components/create-company';
 import { useCompanyStore } from './store/company';
 
 export default function CompanyList() {
@@ -38,9 +37,7 @@ export default function CompanyList() {
             </p>
           </div>
           <div>
-            <Button>
-              <IconPlus className='mr-2 w-5' /> 添加
-            </Button>
+            <CreateCompany />
           </div>
         </div>
         <Separator className='my-4' />
@@ -51,9 +48,9 @@ export default function CompanyList() {
                 <CompanyCard
                   key={cm.id}
                   company={cm}
-                  className='w-[150px] shrink-0'
+                  className='w-[300px] shrink-0'
                   aspectRatio='square'
-                  width={150}
+                  width={300}
                   height={150}
                 />
               ))}

@@ -1,12 +1,11 @@
-import { cn } from '@/lib/utils';
-
 import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuSeparator,
-  ContextMenuTrigger,
-} from '@/components/ui/context-menu';
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import { bo } from '@/wailsjs/go/models';
 import { useNavigate } from 'react-router-dom';
 
@@ -36,44 +35,20 @@ export function CompanyCard({
   };
 
   return (
-    <div className={cn('space-y-3', className)} {...props}>
-      <ContextMenu>
-        <ContextMenuTrigger>
-          <div className='overflow-hidden rounded-md'>
-            <img
-              src={'http://iph.href.lu/300x300?bg=eeeeee'}
-              alt={cm.name}
-              width={width}
-              height={height}
-              className={cn(
-                'h-auto w-auto object-cover transition-all hover:scale-105',
-                aspectRatio === 'portrait' ? 'aspect-[3/4]' : 'aspect-square'
-              )}
-            />
-          </div>
-        </ContextMenuTrigger>
-        <ContextMenuContent className='w-40'>
-          <ContextMenuItem>查看</ContextMenuItem>
-          <ContextMenuItem>编辑</ContextMenuItem>
-          <ContextMenuSeparator />
-          <ContextMenuItem className='hover:!text-red-700'>
-            删除
-          </ContextMenuItem>
-        </ContextMenuContent>
-      </ContextMenu>
-      <div className='space-y-1 text-sm'>
-        <h3
-          className='font-medium leading-none'
-          onClick={() => {
-            toInfo(cm.id);
-          }}
-        >
-          {cm.name}
-        </h3>
-        <p className='line-clamp-3 text-xs text-muted-foreground hover:text-wrap'>
-          {cm.desc}
-        </p>
-      </div>
-    </div>
+    <Card className={cn('space-y-3', className)} {...props}>
+      <CardContent className='p-1'>
+        <img
+          src={`https://bing.img.run/rand_1366x768.php?ts=${performance.now().toString()}`}
+          alt={cm.name}
+          className='rounded-tl-lg rounded-tr-lg'
+          width={width}
+          height={height}
+        />
+      </CardContent>
+      <CardHeader className='p-2' onClick={() => toInfo(cm.id)}>
+        <CardTitle>{cm.name}</CardTitle>
+        <CardDescription className='line-clamp-3'>{cm.desc}</CardDescription>
+      </CardHeader>
+    </Card>
   );
 }
