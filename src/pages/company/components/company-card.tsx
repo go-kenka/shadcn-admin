@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 
 import {
   ContextMenu,
@@ -6,14 +6,15 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
-} from '@/components/ui/context-menu'
-import { bo } from '@/wailsjs/go/models'
+} from '@/components/ui/context-menu';
+import { bo } from '@/wailsjs/go/models';
+import { useNavigate } from 'react-router-dom';
 
 interface CompanyProps extends React.HTMLAttributes<HTMLDivElement> {
-  company: bo.Company
-  aspectRatio?: 'portrait' | 'square'
-  width?: number
-  height?: number
+  company: bo.Company;
+  aspectRatio?: 'portrait' | 'square';
+  width?: number;
+  height?: number;
 }
 
 export function CompanyCard({
@@ -24,6 +25,16 @@ export function CompanyCard({
   className,
   ...props
 }: CompanyProps) {
+  // 导航器
+  const nav = useNavigate();
+
+  // 跳转到详细画面
+  const toInfo = (id: number | undefined) => {
+    if (id) {
+      nav(`/company/${id}`);
+    }
+  };
+
   return (
     <div className={cn('space-y-3', className)} {...props}>
       <ContextMenu>
@@ -51,11 +62,18 @@ export function CompanyCard({
         </ContextMenuContent>
       </ContextMenu>
       <div className='space-y-1 text-sm'>
-        <h3 className='font-medium leading-none'>{cm.name}</h3>
+        <h3
+          className='font-medium leading-none'
+          onClick={() => {
+            toInfo(cm.id);
+          }}
+        >
+          {cm.name}
+        </h3>
         <p className='line-clamp-3 text-xs text-muted-foreground hover:text-wrap'>
           {cm.desc}
         </p>
       </div>
     </div>
-  )
+  );
 }

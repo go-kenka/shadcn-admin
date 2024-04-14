@@ -4,18 +4,18 @@ import {
   IconHexagonNumber2,
   IconLayoutDashboard,
   IconServerBolt,
-  IconSettings
-} from '@tabler/icons-react'
+  IconSettings,
+} from '@tabler/icons-react';
 
 export interface NavLink {
-  title: string
-  label?: string
-  href: string
-  icon: JSX.Element
+  title: string;
+  label?: string;
+  href: string;
+  icon: JSX.Element;
 }
 
 export interface SideLink extends NavLink {
-  sub?: NavLink[]
+  sub?: NavLink[];
 }
 
 export const sidelinks: SideLink[] = [
@@ -28,7 +28,7 @@ export const sidelinks: SideLink[] = [
   {
     title: '供应商',
     label: '3',
-    href: '/tasks',
+    href: '/company',
     icon: <IconServerBolt size={18} />,
   },
   {
@@ -57,4 +57,4 @@ export const sidelinks: SideLink[] = [
       },
     ],
   },
-]
+];

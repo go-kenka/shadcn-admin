@@ -1,7 +1,7 @@
-import { createBrowserRouter } from 'react-router-dom'
-import GeneralError from './pages/errors/general-error'
-import NotFoundError from './pages/errors/not-found-error'
-import MaintenanceError from './pages/errors/maintenance-error'
+import { createBrowserRouter } from 'react-router-dom';
+import GeneralError from './pages/errors/general-error';
+import MaintenanceError from './pages/errors/maintenance-error';
+import NotFoundError from './pages/errors/not-found-error';
 
 const router = createBrowserRouter([
   // Auth routes
@@ -34,8 +34,8 @@ const router = createBrowserRouter([
   {
     path: '/',
     lazy: async () => {
-      const AppShell = await import('./components/app-shell')
-      return { Component: AppShell.default }
+      const AppShell = await import('./components/app-shell');
+      return { Component: AppShell.default };
     },
     errorElement: <GeneralError />,
     children: [
@@ -46,10 +46,21 @@ const router = createBrowserRouter([
         }),
       },
       {
-        path: 'tasks',
-        lazy: async () => ({
-          Component: (await import('./pages/tasks')).default,
-        }),
+        path: 'company',
+        children: [
+          {
+            index: true,
+            lazy: async () => ({
+              Component: (await import('./pages/company')).default,
+            }),
+          },
+          {
+            path: 'company/:cid',
+            lazy: async () => ({
+              Component: (await import('./pages/company/list')).default,
+            }),
+          },
+        ],
       },
       {
         path: 'chats',
@@ -133,6 +144,6 @@ const router = createBrowserRouter([
 
   // Fallback 404 route
   { path: '*', Component: NotFoundError },
-])
+]);
 
-export default router
+export default router;
