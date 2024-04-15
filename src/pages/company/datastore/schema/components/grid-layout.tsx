@@ -1,91 +1,136 @@
-import { Button } from '@/components/custom/button';
-import { GridStack } from 'gridstack';
-import { createRef, useEffect, useRef, type FC } from 'react';
+import _ from 'lodash';
+import React, { useEffect, useState } from 'react';
+import { Layout, Responsive, WidthProvider } from 'react-grid-layout';
 import './styles.css';
 
-interface GridLayoutProps {
-  items: any[];
-  addItem: () => void;
+const ResponsiveReactGridLayout = WidthProvider(Responsive);
+
+interface DragFromOutsideLayoutProps {
+  className?: string;
+  rowHeight?: number;
+  onLayoutChange?: (
+    layout: Layout[],
+    layouts: { [key: string]: Layout[] }
+  ) => void;
+  cols?: { [key: string]: number };
 }
 
-// @ts-ignore
-const Item = ({ id }) => <div>{id}</div>;
-
-function myClone(event: any) {
-  const el: HTMLElement = event.target.cloneNode(true);
-  el.setAttribute('gs-id', 'foo'); // TEST why clone element is not used directly on drop #2231
-  el.dataset.ok = 'true';
-  return el;
-}
-
-const GridLayout: FC<GridLayoutProps> = ({ items, addItem }) => {
-  const refs = useRef<any>({});
-  const gridRef = useRef<GridStack>();
-
-  const options = {
-    // main grid options
-    cellHeight: 50,
-    margin: 5,
-    minRow: 50,
-    float: true,
-    // sizeToContent: true, // default to make them all fit
-    acceptWidgets: true,
-    removable: 'body',
-    columnOpts: {
-      breakpointForWindow: true, // test window vs grid size
-      breakpoints: [
-        { w: 700, c: 1 },
-        { w: 850, c: 3 },
-        { w: 950, c: 6 },
-        { w: 1100, c: 8 },
-      ],
-    },
-  };
-
-  if (Object.keys(refs.current).length !== items.length) {
-    items.forEach(({ id }) => {
-      refs.current[id] = refs.current[id] || createRef();
-    });
-  }
+const DragFromOutsideLayout: React.FC<DragFromOutsideLayoutProps> = ({
+  className = 'layout',
+  rowHeight = 30,
+  onLayoutChange = () => {},
+  cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
+}) => {
+  const [currentBreakpoint, setCurrentBreakpoint] = useState<string>('lg');
+  const [compactType, setCompactType] = useState<string>('vertical');
+  const [mounted, setMounted] = useState<boolean>(false);
+  const [layouts, setLayouts] = useState<{ [key: string]: Layout[] }>({
+    lg: generateLayout(),
+  });
 
   useEffect(() => {
-    gridRef.current = gridRef.current || GridStack.init(options);
-    const grid = gridRef.current;
-    GridStack.setupDragIn('.btn .grid-stack-item', {
-      appendTo: 'body',
-      helper: myClone,
-    });
-    grid.batchUpdate();
-    grid.removeAll(false);
-    items.forEach(({ id }) => grid.makeWidget(refs.current[id].current));
-    grid.batchUpdate(false);
-  }, [items]);
+    setMounted(true);
+  }, []);
 
-  const exportData = () => {
-    const data = gridRef.current?.save(true);
-    console.log(data);
+  const generateDOM = () => {
+    return _.map(layouts.lg, (l, i) => {
+      return (
+        <div key={i} className={l.static ? 'static' : ''}>
+          {l.static ? (
+            <span
+              className='text'
+              title='This item is static and cannot be removed or resized.'
+            >
+              Static - {i}
+            </span>
+          ) : (
+            <span className='text'>{i}</span>
+          )}
+        </div>
+      );
+    });
+  };
+
+  const onBreakpointChange = (breakpoint: string) => {
+    setCurrentBreakpoint(breakpoint);
+  };
+
+  const onCompactTypeChange = () => {
+    const oldCompactType = compactType;
+    const newCompactType =
+      oldCompactType === 'horizontal'
+        ? 'vertical'
+        : oldCompactType === 'vertical'
+          ? 'null'
+          : 'horizontal';
+    setCompactType(newCompactType);
+  };
+
+  const handleLayoutChange = (
+    layout: Layout[],
+    layouts: { [key: string]: Layout[] }
+  ) => {
+    onLayoutChange(layout, layouts);
+  };
+
+  const onNewLayout = () => {
+    setLayouts({ lg: generateLayout() });
+  };
+
+  const onDrop = (layout: Layout[], layoutItem: Layout, _event: Event) => {
+    alert(
+      `Dropped element props:\n${JSON.stringify(layoutItem, ['x', 'y', 'w', 'h'], 2)}`
+    );
   };
 
   return (
-    <div className='h-full overflow-auto'>
-      <Button onClick={exportData}>Add new widget</Button>
-      <div className={`grid-stack controlled`}>
-        {items.map((item, i) => {
-          return (
-            <div
-              ref={refs.current[item.id]}
-              key={item.id}
-              className={'grid-stack-item border bg-green-100 p-2'}
-            >
-              <div className='grid-stack-item-content'>
-                <Item {...item} />
-              </div>
-            </div>
-          );
-        })}
+    <div>
+      <div>
+        Current Breakpoint: {currentBreakpoint} ({cols[currentBreakpoint]}{' '}
+        columns)
       </div>
+      <div>Compaction type: {_.capitalize(compactType) || 'No Compaction'}</div>
+      <button onClick={onNewLayout}>Generate New Layout</button>
+      <button onClick={onCompactTypeChange}>Change Compaction Type</button>
+      <div
+        className='droppable-element'
+        draggable={true}
+        unselectable='on'
+        onDragStart={(e) => e.dataTransfer.setData('text/plain', '')}
+      >
+        Droppable Element (Drag me!)
+      </div>
+      <ResponsiveReactGridLayout
+        className={className}
+        rowHeight={rowHeight}
+        layouts={layouts}
+        onBreakpointChange={onBreakpointChange}
+        onLayoutChange={handleLayoutChange}
+        onDrop={onDrop}
+        measureBeforeMount={false}
+        useCSSTransforms={mounted}
+        compactType={compactType as any}
+        preventCollision={!compactType}
+        isDroppable={true}
+      >
+        {generateDOM()}
+      </ResponsiveReactGridLayout>
     </div>
   );
 };
 
-export default GridLayout;
+function generateLayout(): Layout[] {
+  return _.map(_.range(0, 25), (item, i) => {
+    const y = Math.ceil(Math.random() * 4) + 1;
+    return {
+      x: Math.round(Math.random() * 5) * 2,
+      y: Math.floor(i / 6) * y,
+      w: 2,
+      h: y,
+      i: i.toString(),
+      static: Math.random() < 0.05,
+    };
+  });
+}
+
+export default DragFromOutsideLayout;
