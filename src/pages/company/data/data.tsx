@@ -1,23 +1,19 @@
-import {
-  CircleIcon,
-  QuestionMarkCircledIcon,
-  StopwatchIcon,
-} from '@radix-ui/react-icons';
+import { RocketIcon, StopIcon, SymbolIcon } from '@radix-ui/react-icons';
 
-export const statuses = [
-  {
-    value: 0,
-    label: '待配置',
-    icon: QuestionMarkCircledIcon,
-  },
+export const adapters = [
   {
     value: 1,
-    label: '正常',
-    icon: CircleIcon,
+    label: '适配器01',
+    icon: RocketIcon,
   },
   {
     value: 2,
-    label: '停用',
-    icon: StopwatchIcon,
+    label: '适配器02',
+    icon: StopIcon,
+  },
+  {
+    value: 3,
+    label: '适配器03',
+    icon: SymbolIcon,
   },
 ];

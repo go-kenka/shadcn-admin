@@ -1,0 +1,13 @@
+.grid-stack-item {
+  background-color: #fff;
+  text-align: unset;
+  margin: 4px;
+}
+
+.grid-stack-placeholder {
+  background-color: #f5f5f5;
+}
+
+.grid-stack {
+  background-color: #eee;
+}

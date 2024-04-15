@@ -10,6 +10,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { Cross2Icon } from '@radix-ui/react-icons';
 import type { FC } from 'react';
 import { useCompanyStore } from '../store/company';
 
@@ -23,7 +24,10 @@ const DeleteCompany: FC<DeleteCompanyProps> = ({ id }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant='destructive'>删除</Button>
+        <Button variant='destructive' size={'sm'}>
+          <Cross2Icon className='h-5' />
+          删除
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

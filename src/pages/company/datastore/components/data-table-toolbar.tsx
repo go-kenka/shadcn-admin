@@ -3,9 +3,8 @@ import { Table } from '@tanstack/react-table';
 
 import { Button } from '@/components/custom/button';
 import { Input } from '@/components/ui/input';
+import { adapters } from '../../data/data';
 import { DataTableViewOptions } from '../components/data-table-view-options';
-
-import { statuses } from '../data/data';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
 
 interface DataTableToolbarProps<TData> {
@@ -29,11 +28,11 @@ export function DataTableToolbar<TData>({
           className='h-8 w-[150px] lg:w-[250px]'
         />
         <div className='flex gap-x-2'>
-          {table.getColumn('status') && (
+          {table.getColumn('aid') && (
             <DataTableFacetedFilter
-              column={table.getColumn('status')}
-              title='状态'
-              options={statuses}
+              column={table.getColumn('aid')}
+              title='适配器'
+              options={adapters}
             />
           )}
         </div>

@@ -5,10 +5,12 @@ import { UserNav } from '@/components/user-nav';
 import { bo } from '@/wailsjs/go/models';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { columns } from '../components/columns';
-import { DataTable } from '../components/data-table';
+import DeleteCompany from '../components/delete-company';
+import UpdateCompany from '../components/update-company';
 import { datastores } from '../data/datastore';
 import { useCompanyStore } from '../store/company';
+import { columns } from './components/columns';
+import { DataTable } from './components/data-table';
 
 export default function Datastores() {
   const { cid } = useParams();
@@ -41,6 +43,10 @@ export default function Datastores() {
               {cm.name + '（仓库列表）'}
             </h2>
             <p className='text-muted-foreground'>{cm.desc}</p>
+          </div>
+          <div className='space-x-2'>
+            <DeleteCompany id={id} />
+            <UpdateCompany id={id} />
           </div>
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>

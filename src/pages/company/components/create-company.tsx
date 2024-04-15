@@ -52,13 +52,21 @@ const CreateCompany: FC<CreateCompanyProps> = ({}) => {
               <Label htmlFor='name' className='text-right'>
                 名称
               </Label>
-              <Input {...register('name')} className='col-span-3' />
+              <Input
+                {...register('name')}
+                className='col-span-3'
+                placeholder='请输入供应商名称'
+              />
             </div>
             <div className='items-center gap-4'>
               <Label htmlFor='desc' className='text-right'>
                 描述
               </Label>
-              <Input {...register('desc')} className='col-span-3' />
+              <Input
+                {...register('desc')}
+                className='col-span-3'
+                placeholder='请详细描述一下'
+              />
             </div>
           </div>
 

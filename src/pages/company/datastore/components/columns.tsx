@@ -4,10 +4,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from './data-table-column-header';
 import { DataTableRowActions } from './data-table-row-actions';
 
-import { statuses } from '../data/data';
-import { Task } from '../data/schema';
+import { bo } from '@/wailsjs/go/models';
+import { adapters } from '../../data/data';
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ColumnDef<bo.Datastore>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -37,7 +37,7 @@ export const columns: ColumnDef<Task>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='仓库名称' />
     ),
-    cell: ({ row }) => <div>{row.getValue('name')}</div>,
+    cell: ({ row }) => <div className='w-[120px]'>{row.getValue('name')}</div>,
     meta: { title: '仓库名称' },
     enableSorting: false,
     enableHiding: false,
@@ -49,7 +49,7 @@ export const columns: ColumnDef<Task>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className='flex w-[300px] space-x-2'>
+        <div className='flex w-[400px] space-x-2'>
           <span className='max-w-32 truncate font-medium sm:max-w-72 md:max-w-[31rem]'>
             {row.getValue('desc')}
           </span>
@@ -60,13 +60,13 @@ export const columns: ColumnDef<Task>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: 'status',
+    accessorKey: 'aid',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='状态' />
+      <DataTableColumnHeader column={column} title='适配器' />
     ),
     cell: ({ row }) => {
-      const status = statuses.find(
-        (status) => status.value === row.getValue('status')
+      const status = adapters.find(
+        (status) => status.value === row.getValue('aid')
       );
 
       if (!status) {
@@ -74,7 +74,7 @@ export const columns: ColumnDef<Task>[] = [
       }
 
       return (
-        <div className='flex w-[100px] items-center'>
+        <div className='flex w-[150px] items-center'>
           {status.icon && (
             <status.icon className='mr-2 h-4 w-4 text-muted-foreground' />
           )}
@@ -85,7 +85,35 @@ export const columns: ColumnDef<Task>[] = [
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
-    meta: { title: '状态' },
+    meta: { title: '适配器' },
+  },
+  {
+    accessorKey: 'created_at',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='创建时间' />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className='flex w-[150px] items-center'>
+          <span>{row.getValue('created_at')}</span>
+        </div>
+      );
+    },
+    meta: { title: '创建时间' },
+  },
+  {
+    accessorKey: 'updated_at',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='更新时间' />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className='flex w-[150px] items-center'>
+          <span>{row.getValue('updated_at')}</span>
+        </div>
+      );
+    },
+    meta: { title: '创建时间' },
   },
   {
     id: 'actions',

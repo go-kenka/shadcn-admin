@@ -10,8 +10,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-
-import { taskSchema } from '../data/schema';
+import { useNavigate } from 'react-router-dom';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -20,7 +19,12 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const task = taskSchema.parse(row.original);
+  // const task = taskSchema.parse(row.original);
+  const nav = useNavigate();
+
+  const toSchema = () => {
+    nav(`schema`);
+  };
 
   return (
     <DropdownMenu>
@@ -36,7 +40,7 @@ export function DataTableRowActions<TData>({
       <DropdownMenuContent align='end' className='w-[160px]'>
         <DropdownMenuItem>查看</DropdownMenuItem>
         <DropdownMenuItem>编辑</DropdownMenuItem>
-        <DropdownMenuItem>配置</DropdownMenuItem>
+        <DropdownMenuItem onClick={toSchema}>配置</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           删除

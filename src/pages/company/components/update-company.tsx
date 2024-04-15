@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { GearIcon } from '@radix-ui/react-icons';
 import { useEffect, type FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useCompanyStore } from '../store/company';
@@ -40,7 +41,10 @@ const UpdateCompany: FC<UpdateCompanyProps> = ({ id }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={'secondary'}>编辑</Button>
+        <Button variant={'outline'} size={'sm'}>
+          <GearIcon className='h-5' />
+          编辑
+        </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <form onSubmit={handleSubmit(onSubmit)}>
