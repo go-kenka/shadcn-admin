@@ -1,9 +1,9 @@
-import { IconCursorText } from '@tabler/icons-react';
+import { IconNumber } from '@tabler/icons-react';
 import { type FC } from 'react';
 
-interface TextProps {}
+interface NumberProps {}
 
-const TextInput: FC<TextProps> = () => {
+const NumberInput: FC<NumberProps> = () => {
   return (
     <div
       className='flex h-10 w-full flex-row items-center justify-start gap-1 rounded border border-dashed p-2 hover:bg-cyan-200'
@@ -11,13 +11,13 @@ const TextInput: FC<TextProps> = () => {
       unselectable='on'
       onDragStart={(e) => e.dataTransfer.setData('text/plain', '')}
     >
-      <IconCursorText className='h-4' />
-      文本
+      <IconNumber className='h-4' />
+      数字
     </div>
   );
 };
 
-export default TextInput;
+export default NumberInput;
 
 // .sidebar.inline {
 //   width: fit-content;
