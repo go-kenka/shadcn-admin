@@ -1,9 +1,9 @@
-import { IconNumber } from '@tabler/icons-react';
+import { IconPhoto } from '@tabler/icons-react';
 import { type FC } from 'react';
 
-interface NumberProps {}
+interface ImageProps {}
 
-const NumberInput: FC<NumberProps> = () => {
+const ImageInput: FC<ImageProps> = () => {
   return (
     <div
       className='flex h-10 w-full flex-row items-center justify-start gap-1 rounded border border-dashed p-2 hover:bg-cyan-200'
@@ -11,13 +11,13 @@ const NumberInput: FC<NumberProps> = () => {
       unselectable='on'
       onDragStart={(e) => e.dataTransfer.setData('text/plain', '')}
     >
-      <IconNumber className='h-4' />
-      数字
+      <IconPhoto className='h-4' />
+      图片(url)
     </div>
   );
 };
 
-export default NumberInput;
+export default ImageInput;
 
 // .sidebar.inline {
 //   width: fit-content;

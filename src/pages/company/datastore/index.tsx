@@ -38,13 +38,13 @@ export default function Datastores() {
 
       <LayoutBody className='flex flex-col' fixedHeight>
         <div className='mb-2 flex items-center justify-between space-y-2'>
-          <div>
+          <div className='flex-1'>
             <h2 className='text-2xl font-bold tracking-tight'>
               {cm.name + '（仓库列表）'}
             </h2>
             <p className='text-muted-foreground'>{cm.desc}</p>
           </div>
-          <div className='space-x-2'>
+          <div className='flex w-[200px] flex-row justify-end space-x-2'>
             <DeleteCompany id={id} />
             <UpdateCompany id={id} />
           </div>

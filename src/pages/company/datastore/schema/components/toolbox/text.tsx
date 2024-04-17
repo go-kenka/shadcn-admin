@@ -9,10 +9,10 @@ const TextInput: FC<TextProps> = () => {
       className='flex h-10 w-full flex-row items-center justify-start gap-1 rounded border border-dashed p-2 hover:bg-cyan-200'
       draggable={true}
       unselectable='on'
-      onDragStart={(e) => e.dataTransfer.setData('text/plain', '')}
+      onDragStart={(e) => e.dataTransfer.setData('text/plain', 'text')}
     >
       <IconCursorText className='h-4' />
-      文本
+      文本(20)
     </div>
   );
 };

@@ -1,10 +1,14 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { useState, type FC } from 'react';
 import GridLayout from './grid-layout';
+import ArrayInput from './toolbox/array';
+import BooleanInput from './toolbox/boolean';
+import ImageInput from './toolbox/image';
+import JsonInput from './toolbox/json';
+import NumberInput from './toolbox/number';
+import TextInput from './toolbox/text';
+import TextareaInput from './toolbox/textarea';
 import Inputs from './inputs';
-import NumberInput from './widgets/number';
-import TextInput from './widgets/text';
-import TextareaInput from './widgets/textarea';
 
 interface SchemaEditorProps {}
 
@@ -24,6 +28,10 @@ const SchemaEditor: FC<SchemaEditorProps> = ({}) => {
                 <TextInput key={'text'} />,
                 <NumberInput key={'number'} />,
                 <TextareaInput key={'area'} />,
+                <BooleanInput key={'bool'} />,
+                <ImageInput key={'image'} />,
+                <ArrayInput key={'array'} />,
+                <JsonInput key={'json'} />,
               ]}
             />
           </div>

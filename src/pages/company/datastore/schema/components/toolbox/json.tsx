@@ -1,9 +1,9 @@
-import { IconTextCaption } from '@tabler/icons-react';
+import { IconJson } from '@tabler/icons-react';
 import { type FC } from 'react';
 
-interface TextareaProps {}
+interface JsonProps {}
 
-const TextareaInput: FC<TextareaProps> = () => {
+const JsonInput: FC<JsonProps> = () => {
   return (
     <div
       className='flex h-10 w-full flex-row items-center justify-start gap-1 rounded border border-dashed p-2 hover:bg-cyan-100'
@@ -11,13 +11,13 @@ const TextareaInput: FC<TextareaProps> = () => {
       unselectable='on'
       onDragStart={(e) => e.dataTransfer.setData('text/plain', '')}
     >
-      <IconTextCaption className='h-4' />
-      长文本
+      <IconJson className='h-4' />
+      JSON(object)
     </div>
   );
 };
 
-export default TextareaInput;
+export default JsonInput;
 
 // .sidebar.inline {
 //   width: fit-content;

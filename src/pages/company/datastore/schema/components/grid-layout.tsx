@@ -1,8 +1,8 @@
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { ColumnsIcon, LayoutIcon } from '@radix-ui/react-icons';
-import _ from 'lodash';
+import { nanoid } from 'nanoid';
 import React, { useEffect, useState } from 'react';
 import { Layout, Responsive, WidthProvider } from 'react-grid-layout';
+import TextInput from './inputs/TextInput';
 import './styles.css';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -20,7 +20,7 @@ interface DragFromOutsideLayoutProps {
 
 const DragFromOutsideLayout: React.FC<DragFromOutsideLayoutProps> = ({
   className = 'layout',
-  rowHeight = 100,
+  rowHeight = 75,
   onLayoutChange = () => {},
   compactType = 'vertical',
   cols = { lg: 6, md: 4, sm: 2, xs: 2, xxs: 1 },
@@ -36,12 +36,13 @@ const DragFromOutsideLayout: React.FC<DragFromOutsideLayoutProps> = ({
   }, []);
 
   const generateDOM = () => {
-    return _.map(layouts.lg, (l, i) => {
+    return layouts.lg.map((l: any, i: number) => {
+      const extra = JSON.parse(l.i);
+      console.log(l);
       return (
-        <Card key={i} data-grid={l} className='rounded-sm'>
-          <CardHeader className='p-0 pl-2 pr-2'>{i}</CardHeader>
-          <CardContent className='p-0 pl-2 pr-2'>{i}</CardContent>
-        </Card>
+        <div key={l.i} data-grid={{ ...l }} className='rounded-sm border p-2'>
+          {<TextInput name={extra['ititle']} />}
+        </div>
       );
     });
   };
@@ -54,10 +55,24 @@ const DragFromOutsideLayout: React.FC<DragFromOutsideLayoutProps> = ({
     layout: Layout[],
     layouts: { [key: string]: Layout[] }
   ) => {
+    console.log(layouts);
     onLayoutChange(layout, layouts);
   };
 
-  const onDrop = (layout: Layout[], _item: Layout, _event: Event) => {
+  const onDrop = (layout: Layout[], _item: any, _event: DragEvent) => {
+    const iType = _event.dataTransfer?.getData('text/plain');
+    switch (iType) {
+      case 'text':
+        _item['itype'] = 'text';
+        _item['ititle'] = '文本输入';
+        _item['id'] = nanoid();
+        break;
+
+      default:
+        break;
+    }
+    _item.i = JSON.stringify(_item);
+    console.log(layout);
     setLayouts({ lg: layout });
   };
 
@@ -84,9 +99,10 @@ const DragFromOutsideLayout: React.FC<DragFromOutsideLayoutProps> = ({
         onLayoutChange={handleLayoutChange}
         onDrop={onDrop}
         measureBeforeMount={false}
-        useCSSTransforms={mounted}
+        useCSSTransforms={true}
+        verticalCompact={true}
         compactType={compactType as any}
-        preventCollision={true}
+        preventCollision={false}
         isDroppable={true}
       >
         {generateDOM()}
