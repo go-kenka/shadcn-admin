@@ -1,10 +1,10 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useEffect, useState, type FC } from 'react';
-import { useWidgetStore } from '../../store/inputs';
+import useWidgetStore from '../../store/inputs';
 
 interface TextInputSettingProps {
-  id: string;
+  extra: { name: string; title: string; placeholder: string; desc: string };
 }
 
 // name: 'text',
@@ -12,34 +12,37 @@ interface TextInputSettingProps {
 // placeholder: '请输入内容',
 // desc: '',
 
-const TextInputSetting: FC<TextInputSettingProps> = ({ id }) => {
-  const [nameValue, setNameValue] = useState<string>();
-  const [titleValue, setTitleValue] = useState<string>();
-  const [placeholderValue, setPlaceholderValue] = useState<string>();
-  const [descValue, setDescValue] = useState<string>();
+const TextInputSetting: FC<TextInputSettingProps> = ({ extra }) => {
+  const [nameValue, setNameValue] = useState<string>('');
+  const [titleValue, setTitleValue] = useState<string>('');
+  const [placeholderValue, setPlaceholderValue] = useState<string>('');
+  const [descValue, setDescValue] = useState<string>('');
 
-  const find = useWidgetStore((state) => state.find);
-  const updateExtra = useWidgetStore((state) => state.updateExtra);
+  const update = useWidgetStore.use.updateSelectedComponent();
+  const selected = useWidgetStore.use.selectedComponent();
 
   useEffect(() => {
-    const cw = find(id);
-    if (cw) {
-      setNameValue(cw.extra?.name);
-      setTitleValue(cw.extra?.title);
-      setPlaceholderValue(cw.extra?.placeholder);
-      setDescValue(cw.extra?.desc);
+    if (extra) {
+      setNameValue(extra.name);
+      setTitleValue(extra.title);
+      setPlaceholderValue(extra.placeholder);
+      setDescValue(extra.desc);
     }
-  }, [id]);
+  }, [JSON.stringify(extra)]);
 
   useEffect(() => {
-    const cw = find(id);
-    if (cw && nameValue && titleValue && placeholderValue && descValue) {
-      updateExtra(id, {
-        name: nameValue,
-        title: titleValue,
-        placeholder: placeholderValue,
-        desc: descValue,
-      });
+    if (selected && nameValue && titleValue && placeholderValue && descValue) {
+      update(
+        Object.assign(selected, {
+          extra: {
+            ...selected.extra,
+            name: nameValue,
+            title: titleValue,
+            placeholder: placeholderValue,
+            desc: descValue,
+          },
+        })
+      );
     }
   }, [nameValue, titleValue, placeholderValue, descValue]);
 

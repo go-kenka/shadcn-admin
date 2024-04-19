@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { Layout, Responsive, WidthProvider } from 'react-grid-layout';
 import { FormProvider, useForm } from 'react-hook-form';
 import TextInput from './inputs/TextInput';
-import { useWidgetStore } from './store/inputs';
+import useWidgetStore, { Component } from './store/inputs';
 import './styles.css';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -20,7 +20,6 @@ interface DragFromOutsideLayoutProps {
   ) => void;
   compactType?: 'horizontal' | 'vertical' | null;
   cols?: { [key: string]: number };
-  select?: (r: string) => void;
 }
 
 const DragFromOutsideLayout: React.FC<DragFromOutsideLayoutProps> = ({
@@ -29,30 +28,37 @@ const DragFromOutsideLayout: React.FC<DragFromOutsideLayoutProps> = ({
   onLayoutChange = () => {},
   compactType = 'vertical',
   cols = { lg: 6, md: 4, sm: 2, xs: 2, xxs: 1 },
-  select = (r) => {},
 }) => {
   const [currentBreakpoint, setCurrentBreakpoint] = useState<string>('lg');
   const [mounted, setMounted] = useState<boolean>(false);
   const [layouts, setLayouts] = useState<{ [key: string]: Layout[] }>({
     lg: [],
   });
-  const change = useWidgetStore((s) => s.change);
+  const widgets = useWidgetStore.use.panelComponents();
+  const update = useWidgetStore.use.updatePanelComponents();
+  const select = useWidgetStore.use.updateSelectedComponent();
   const form = useForm({ defaultValues: {} });
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    setLayouts({ lg: widgets });
+  }, [widgets]);
+
   const generateDOM = () => {
-    return layouts.lg.map((l: any, i: number) => {
+    return widgets.map((l: Component, i: number) => {
       return (
         <div
           key={l.i}
           data-grid={{ ...l }}
           className='rounded-sm border p-2'
-          onClick={() => select(l.i)}
+          onClick={() => {
+            select(l);
+          }}
         >
-          {<TextInput id={l.i} />}
+          {<TextInput extra={l.extra} />}
         </div>
       );
     });
@@ -70,7 +76,7 @@ const DragFromOutsideLayout: React.FC<DragFromOutsideLayoutProps> = ({
     onLayoutChange(layout, layouts);
   };
 
-  const onDrop = (layout: Layout[], _item: any, _event: DragEvent) => {
+  const onDrop = (layouts: Component[], _item: any, _event: DragEvent) => {
     _item['i'] = nanoid(5);
     const extra: any = {};
     const data = _event.dataTransfer?.getData('text/plain');
@@ -89,10 +95,20 @@ const DragFromOutsideLayout: React.FC<DragFromOutsideLayoutProps> = ({
     // 更新数据
     _item['extra'] = extra;
 
-    change(_item);
-    select(_item.i);
-    console.log(layout);
-    setLayouts({ lg: layout });
+    update(layouts);
+    select(_item);
+    setLayouts({ lg: layouts });
+  };
+
+  const onDropStop = (_layout: Layout[], _oldItem: Layout, newItem: Layout) => {
+    const changed = widgets.find((i) => i.i === newItem.i);
+    if (changed) {
+      changed.x = newItem.x;
+      changed.y = newItem.y;
+      changed.w = newItem.w;
+      changed.h = newItem.h;
+      select(changed);
+    }
   };
 
   function onSubmit(data: any) {
@@ -133,6 +149,7 @@ const DragFromOutsideLayout: React.FC<DragFromOutsideLayoutProps> = ({
             onBreakpointChange={onBreakpointChange}
             onLayoutChange={handleLayoutChange}
             onDrop={onDrop}
+            onDragStop={onDropStop}
             measureBeforeMount={false}
             useCSSTransforms={true}
             verticalCompact={true}

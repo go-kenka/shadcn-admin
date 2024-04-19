@@ -9,47 +9,57 @@ import {
 import { Input } from '@/components/ui/input';
 import { useEffect, useState, type FC } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { useWidgetStore } from '../../store/inputs';
+
+interface TextInputExtraProps {
+  name: string;
+  title?: string;
+  placeholder?: string;
+  desc?: string;
+}
 
 interface TextInputProps {
   className?: string;
-  id?: string;
+  extra: TextInputExtraProps;
 }
 
-const TextInput: FC<TextInputProps> = ({ className, id }) => {
-  const { control } = useFormContext(); // retrieve all hook methods
-  const ts = useWidgetStore((state) => state.ts);
-  const find = useWidgetStore((state) => state.find);
-  const [extra, setExtra] = useState<any>({
-    name: 'text',
-    title: '文本',
-    placeholder: '请输入内容',
-    desc: '',
-  });
+const TextInput: FC<TextInputProps> = ({ className, extra }) => {
+  const { control, getValues } = useFormContext(); // retrieve all hook methods
+  const [current, setCurrent] = useState<TextInputExtraProps>(extra);
+  const [value, setValue] = useState<string>('');
 
   useEffect(() => {
-    const info = find(id ?? '');
-    setExtra(info?.extra);
-  }, [ts]);
+    if (current.name !== extra.name) {
+      const ov = getValues(current.name);
+      setValue(ov);
+      control.unregister(current.name);
+      control.register(extra.name, { value: ov });
+      setCurrent(extra);
+    }
+  }, [extra.name]);
 
   return (
     <FormField
       control={control}
-      name={extra.name}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>{extra.title}</FormLabel>
-          <FormControl>
-            <Input
-              className={className}
-              placeholder={extra.placeholder}
-              {...field}
-            />
-          </FormControl>
-          <FormDescription>{extra.desc}</FormDescription>
-          <FormMessage />
-        </FormItem>
-      )}
+      name={current.name}
+      render={({ field }) => {
+        if (!field.value) {
+          field.value = value ?? '';
+        }
+        return (
+          <FormItem>
+            <FormLabel>{current.title}</FormLabel>
+            <FormControl>
+              <Input
+                className={className}
+                placeholder={current.placeholder}
+                {...field}
+              />
+            </FormControl>
+            <FormDescription>{current.desc}</FormDescription>
+            <FormMessage />
+          </FormItem>
+        );
+      }}
     />
   );
 };
