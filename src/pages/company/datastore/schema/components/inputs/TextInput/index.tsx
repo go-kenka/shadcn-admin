@@ -34,8 +34,11 @@ const TextInput: FC<TextInputProps> = ({ className, extra }) => {
       control.unregister(current.name);
       control.register(extra.name, { value: ov });
       setCurrent(extra);
+      return;
     }
-  }, [extra.name]);
+
+    setCurrent(extra);
+  }, [JSON.stringify(extra)]);
 
   return (
     <FormField

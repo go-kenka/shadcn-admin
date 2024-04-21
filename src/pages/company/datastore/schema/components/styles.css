@@ -1,22 +1,26 @@
 .layout {
   height: calc(100% - 42px) !important;
   /* background-color: hsl(27 var(--primary) 36%); */
-  background-image: linear-gradient(to right, #eeeeee61 2px, transparent 2px),
-    linear-gradient(to bottom, #eeeeee61 2px, transparent 2px);
+  background-image: linear-gradient(
+      to right,
+      hsl(var(--secondary)) 2px,
+      transparent 2px
+    ),
+    linear-gradient(to bottom, hsl(var(--secondary)) 2px, transparent 2px);
   background-size: 10px 10px;
 }
 
 .react-grid-layout .react-draggable-dragging {
-  background-color: rgba(0, 233, 255, 0.3); /* 移动过程中的背景色 */
+  background-color: hsl(var(--muted)); /* 移动过程中的背景色 */
 }
 
 .react-grid-layout .react-draggable-dragged {
-  background-color: rgba(0, 255, 0, 0.3); /* 移动并释放后的背景色 */
+  background-color: hsl(var(--muted)); /* 移动并释放后的背景色 */
 }
 
 .react-grid-layout .react-grid-placeholder {
-  background-color: rgba(139, 139, 139, 0.2);
-  border: 2px dashed #333; /* 添加一个虚线边框 */
+  background-color: hsl(var(--muted));
+  border: 2px dashed hsl(var(--border)); /* 添加一个虚线边框 */
   border-radius: 2px;
   opacity: 0.8; /* 调整透明度 */
   z-index: 2;

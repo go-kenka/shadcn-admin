@@ -32,17 +32,17 @@ const TextInputSetting: FC<TextInputSettingProps> = ({ extra }) => {
 
   useEffect(() => {
     if (selected && nameValue && titleValue && placeholderValue && descValue) {
-      update(
-        Object.assign(selected, {
-          extra: {
-            ...selected.extra,
-            name: nameValue,
-            title: titleValue,
-            placeholder: placeholderValue,
-            desc: descValue,
-          },
-        })
-      );
+      const nObj = {
+        ...selected,
+        extra: {
+          ...selected.extra,
+          name: nameValue,
+          title: titleValue,
+          placeholder: placeholderValue,
+          desc: descValue,
+        },
+      };
+      update(nObj);
     }
   }, [nameValue, titleValue, placeholderValue, descValue]);
 
