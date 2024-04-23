@@ -55,7 +55,7 @@ const JsonInput: FC<JsonInputProps> = ({ className, extra }) => {
             <FormLabel>{current.title}</FormLabel>
             <FormControl className='flex-1'>
               <Editor
-                className={`${className} min-h-[100px]`}
+                className={`${className} min-h-[100px] rounded`}
                 defaultLanguage='json'
                 theme={theme === 'dark' ? 'vs-dark' : 'vs'}
                 defaultValue={current.placeholder}

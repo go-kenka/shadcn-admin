@@ -1,10 +1,9 @@
 import { Button } from '@/components/custom/button';
 import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import { ColumnsIcon, LayoutIcon } from '@radix-ui/react-icons';
 import { nanoid } from 'nanoid';
-import React, { useState } from 'react';
+import React from 'react';
 import RGL, { Layout, WidthProvider } from 'react-grid-layout';
 import { FormProvider, useForm } from 'react-hook-form';
 import ArrayInput from './inputs/ArrayInput';
@@ -34,7 +33,6 @@ export const SchemaBuilder: React.FC<SchemaBuilderProps> = ({
   compactType = 'vertical',
   cols = 2,
 }) => {
-  const [col, setCol] = useState<number>(cols);
   const widgets = useWidgetStore.use.panelComponents();
   const droppingItem = useWidgetStore.use.droppingItem();
   const update = useWidgetStore.use.updatePanelComponents();
@@ -268,15 +266,7 @@ export const SchemaBuilder: React.FC<SchemaBuilderProps> = ({
             <div className='flex flex-1 gap-1'>
               <div className='flex flex-row items-center justify-start gap-2 rounded border p-1'>
                 <ColumnsIcon />
-                <Input
-                  type='number'
-                  className='w-24'
-                  step={1}
-                  min={1}
-                  max={12}
-                  value={col}
-                  onChange={(e) => setCol(Number(e.target.value))}
-                />
+                {cols}
               </div>
               <div className='flex flex-row items-center justify-start gap-2 rounded border p-1'>
                 <LayoutIcon />
@@ -292,7 +282,7 @@ export const SchemaBuilder: React.FC<SchemaBuilderProps> = ({
             className={`${className} overflow-auto rounded border`}
             rowHeight={rowHeight}
             layout={widgets}
-            cols={col}
+            cols={cols}
             margin={[1, 1]}
             onDrop={onDrop}
             onResize={onResize}

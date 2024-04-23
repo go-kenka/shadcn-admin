@@ -32,6 +32,7 @@ interface StoreActions {
   updatePanelComponents: (newPanelComponents: Component[]) => void; // 更新面板中的组件列表
   updateSelectedComponent: (selectedComponent: Component | null) => void; // 更新选中的组件
   updateDropItme: (type: dropItemType) => void; // 更新选中的组件
+  preview: () => Component[]; // 更新选中的组件
 }
 
 // 初始状态
@@ -43,7 +44,7 @@ const initialState: StoreState = {
 };
 
 // 创建并导出状态管理的 hook
-const useStoreBase = create<StoreState & StoreActions>()((set) => ({
+const useStoreBase = create<StoreState & StoreActions>()((set, get) => ({
   ...initialState,
   // 更新组件栏中的组件列表
   updateComponentList: (newComponentList: Component[]) =>
@@ -89,6 +90,9 @@ const useStoreBase = create<StoreState & StoreActions>()((set) => ({
       }
       return { droppingItem: defaultDropItem };
     });
+  },
+  preview: () => {
+    return get().panelComponents;
   },
 }));
 

@@ -9,6 +9,9 @@
     linear-gradient(to bottom, hsl(var(--secondary)) 2px, transparent 2px);
   background-size: 10px 10px;
 }
+.layout1 {
+  height: 100% !important;
+}
 
 .react-grid-layout .react-draggable-dragging {
   background-color: hsl(var(--muted)); /* 移动过程中的背景色 */
