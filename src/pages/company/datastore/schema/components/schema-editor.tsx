@@ -1,4 +1,3 @@
-import { Button } from '@/components/custom/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { IconCube } from '@tabler/icons-react';
@@ -6,6 +5,7 @@ import { useState, type FC } from 'react';
 import Inputs from './inputs';
 import SchemaBuilder from './schema-builder';
 import SchemaPreview from './schema-preview';
+import SchemaTable from './schema-table';
 import Settings from './settings';
 import ArrayInput from './toolbox/array';
 import BooleanInput from './toolbox/boolean';
@@ -68,7 +68,7 @@ const SchemaEditor: FC<SchemaEditorProps> = ({}) => {
               onChange={(e) => setCol(Number(e.target.value))}
             />
             <SchemaPreview cols={col} />
-            <Button>保存</Button>
+            <SchemaTable />
           </div>
         </CardHeader>
         <CardContent className='flex h-[calc(100vh-210px)] flex-row space-x-2'>
