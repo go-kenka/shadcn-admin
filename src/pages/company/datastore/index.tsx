@@ -8,9 +8,10 @@ import { useParams } from 'react-router-dom';
 import DeleteCompany from '../components/delete-company';
 import UpdateCompany from '../components/update-company';
 import { useCompanyStore } from '../store/company';
-import { columns } from './components/columns';
-import { DataTable } from './components/data-table';
+import { columns } from './data-table/columns';
+import { DataTable } from './data-table/data-table';
 import { SearchDatastoreList } from '@/wailsjs/go/service/Datastore';
+import CreateDatastore from './form/create-datastore';
 
 export default function Datastores() {
   const { cid } = useParams();
@@ -61,6 +62,7 @@ export default function Datastores() {
           <div className='flex w-[200px] flex-row justify-end space-x-2'>
             <DeleteCompany id={id} />
             <UpdateCompany id={id} />
+            <CreateDatastore />
           </div>
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
