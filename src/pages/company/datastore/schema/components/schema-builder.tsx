@@ -1,4 +1,3 @@
-import { Button } from '@/components/custom/button';
 import { Card } from '@/components/ui/card';
 import { toast } from '@/components/ui/use-toast';
 import { ColumnsIcon, LayoutIcon } from '@radix-ui/react-icons';
@@ -210,6 +209,7 @@ export const SchemaBuilder: React.FC<SchemaBuilderProps> = ({
         break;
     }
     // 更新数据
+    extra['width'] = 120;
     item['extra'] = extra;
 
     widgets.push(item);
@@ -273,9 +273,6 @@ export const SchemaBuilder: React.FC<SchemaBuilderProps> = ({
                 {compactType}
               </div>
             </div>
-            <Button type='submit' variant={'secondary'}>
-              结果
-            </Button>
           </div>
 
           <ReactGridLayout

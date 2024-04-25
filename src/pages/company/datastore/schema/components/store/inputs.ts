@@ -10,17 +10,28 @@ let arrayDropItem = { i: nanoid(5), w: 1, h: 2 };
 let imageDropItem = { i: nanoid(5), w: 1, h: 2 };
 
 type dropItemType = 'textarea' | 'json' | 'default' | 'array' | 'image';
+type widgetType =
+  | 'text'
+  | 'textarea'
+  | 'json'
+  | 'number'
+  | 'array'
+  | 'image'
+  | 'boolean';
 
 // 定义组件的结构
 export interface Component extends Layout {
   extra?: {
     name: string;
+    width: number;
+    widget: widgetType;
     [key: string]: any;
   }; // 其他可能的组件信息
 }
 
 // 定义状态的结构
 interface StoreState {
+  cols: number;
   droppingItem: { i: string; w: number; h: number };
   componentList: Component[]; // 组件栏中的组件列表
   panelComponents: Component[]; // 面板中的组件列表
@@ -28,6 +39,7 @@ interface StoreState {
 }
 
 interface StoreActions {
+  setCols: (cols: number) => void; // 更新布局的列数
   updateComponentList: (newComponentList: Component[]) => void; // 更新组件栏中的组件列表
   updatePanelComponents: (newPanelComponents: Component[]) => void; // 更新面板中的组件列表
   updateSelectedComponent: (selectedComponent: Component | null) => void; // 更新选中的组件
@@ -37,6 +49,7 @@ interface StoreActions {
 
 // 初始状态
 const initialState: StoreState = {
+  cols: 2,
   droppingItem: defaultDropItem,
   componentList: [],
   panelComponents: [],
@@ -46,6 +59,8 @@ const initialState: StoreState = {
 // 创建并导出状态管理的 hook
 const useStoreBase = create<StoreState & StoreActions>()((set, get) => ({
   ...initialState,
+  // 更新布局的列数
+  setCols: (cols: number) => set(() => ({ cols })),
   // 更新组件栏中的组件列表
   updateComponentList: (newComponentList: Component[]) =>
     set(() => ({ componentList: newComponentList })),

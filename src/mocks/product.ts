@@ -57,17 +57,19 @@ const products: bo.Product[] = [
   },
 ];
 
-const CreateProduct = (arg1: bo.CreateProductReq): Promise<bo.SimpleResp> => {
+export const CreateProduct = (
+  arg1: bo.CreateProductReq
+): Promise<bo.SimpleResp> => {
   // 实现创建产品的逻辑
   return Promise.resolve({ data: 'ok', error: undefined });
 };
 
-const DiscontinuedConfirm = (arg1: number): Promise<bo.SimpleResp> => {
+export const DiscontinuedConfirm = (arg1: number): Promise<bo.SimpleResp> => {
   // 实现确认下架产品的逻辑
   return Promise.resolve({ data: 'ok', error: undefined });
 };
 
-const DiscontinuedProduct = (
+export const DiscontinuedProduct = (
   arg1: number,
   arg2: number
 ): Promise<bo.SimpleResp> => {
@@ -75,17 +77,20 @@ const DiscontinuedProduct = (
   return Promise.resolve({ data: 'ok', error: undefined });
 };
 
-const GetProductDetail = (arg1: number): Promise<bo.GetDetailResp> => {
+export const GetProductDetail = (arg1: number): Promise<bo.GetDetailResp> => {
   // 实现获取产品详情的逻辑
   return Promise.resolve({ doc: products[0], error: '' });
 };
 
-const LaunchProduct = (arg1: number, arg2: number): Promise<bo.SimpleResp> => {
+export const LaunchProduct = (
+  arg1: number,
+  arg2: number
+): Promise<bo.SimpleResp> => {
   // 实现上架产品的逻辑
   return Promise.resolve({ data: 'ok', error: undefined });
 };
 
-const LaunchedConfirm = (
+export const LaunchedConfirm = (
   arg1: number,
   arg2: string
 ): Promise<bo.SimpleResp> => {
@@ -93,7 +98,7 @@ const LaunchedConfirm = (
   return Promise.resolve({ data: 'ok', error: undefined });
 };
 
-const SearchProductList = (
+export const SearchProductList = (
   arg1: bo.SearchProductReq
 ): Promise<bo.SearchProductResp> => {
   // 实现搜索产品列表的逻辑
@@ -108,24 +113,10 @@ const SearchProductList = (
   });
 };
 
-const UpdateProduct = (arg1: number, arg2: number): Promise<bo.SimpleResp> => {
+export const UpdateProduct = (
+  arg1: number,
+  arg2: number
+): Promise<bo.SimpleResp> => {
   // 实现更新产品的逻辑
   return Promise.resolve({ data: 'ok', error: undefined });
-};
-
-export const initProduct = () => {
-  window['go'] = {
-    service: {
-      Product: {
-        CreateProduct,
-        DiscontinuedConfirm,
-        DiscontinuedProduct,
-        GetProductDetail,
-        LaunchProduct,
-        LaunchedConfirm,
-        SearchProductList,
-        UpdateProduct,
-      },
-    },
-  };
 };

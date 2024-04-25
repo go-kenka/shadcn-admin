@@ -35,6 +35,8 @@ const TextAreaInputSetting: FC<TextAreaInputSettingProps> = ({ extra }) => {
         extra: {
           ...selected.extra,
           name: nameValue,
+          width: selected.extra?.width ?? 120,
+          widget: selected.extra?.widget ?? 'textarea',
           title: titleValue,
           placeholder: placeholderValue,
         },

@@ -37,6 +37,8 @@ const JsonInputSetting: FC<JsonInputSettingProps> = ({ extra }) => {
         extra: {
           ...selected.extra,
           name: nameValue,
+          width: selected.extra?.width ?? 120,
+          widget: selected.extra?.widget ?? 'json',
           title: titleValue,
           placeholder: placeholderValue,
           desc: descValue,

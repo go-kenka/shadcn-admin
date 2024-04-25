@@ -13,7 +13,7 @@ const companyData: bo.Company[] = Mock.mock({
   ],
 }).list;
 
-const SearchCompanyList = (
+export const SearchCompanyList = (
   arg1: bo.SearchCompanyReq
 ): Promise<bo.SearchCompanyResp> => {
   const { page, id, name } = arg1;
@@ -35,8 +35,15 @@ const SearchCompanyList = (
   });
 };
 
-const CreateCompany = (arg1: string, arg2: string): Promise<bo.SimpleResp> => {
-  const newCompany = { id: companyData.length + 1, name: arg1, desc: arg2 };
+export const CreateCompany = (
+  arg1: string,
+  arg2: string
+): Promise<bo.SimpleResp> => {
+  const newCompany = {
+    id: companyData.length + 1,
+    name: arg1,
+    desc: arg2,
+  };
   companyData.push(newCompany);
   return Promise.resolve({
     data: 'Company created successfully',
@@ -44,7 +51,7 @@ const CreateCompany = (arg1: string, arg2: string): Promise<bo.SimpleResp> => {
   });
 };
 
-const UpdateCompany = (
+export const UpdateCompany = (
   arg1: number,
   arg2: string,
   arg3: string
@@ -62,7 +69,7 @@ const UpdateCompany = (
   }
 };
 
-const DeleteCompany = (arg1: number): Promise<bo.SimpleResp> => {
+export const DeleteCompany = (arg1: number): Promise<bo.SimpleResp> => {
   const companyIndex = companyData.findIndex((company) => company.id === arg1);
   if (companyIndex !== -1) {
     companyData.splice(companyIndex, 1);
@@ -75,25 +82,11 @@ const DeleteCompany = (arg1: number): Promise<bo.SimpleResp> => {
   }
 };
 
-const GetCompany = (arg1: number): Promise<bo.GetCompanyResp> => {
+export const GetCompany = (arg1: number): Promise<bo.GetCompanyResp> => {
   const company = companyData.find((company) => company.id === arg1);
   if (company) {
     return Promise.resolve({ company, error: undefined });
   } else {
     return Promise.resolve({ company: undefined, error: 'Company not found' });
   }
-};
-
-export const initCompany = () => {
-  window['go'] = {
-    service: {
-      Company: {
-        SearchCompanyList,
-        CreateCompany,
-        UpdateCompany,
-        DeleteCompany,
-        GetCompany,
-      },
-    },
-  };
 };

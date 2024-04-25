@@ -37,6 +37,8 @@ const BooleanInputSetting: FC<BooleanInputSettingProps> = ({ extra }) => {
         extra: {
           ...selected.extra,
           name: nameValue,
+          width: selected.extra?.width ?? 120,
+          widget: selected.extra?.widget ?? 'boolean',
           title: titleValue,
           placeholder: placeholderValue,
           desc: descValue,

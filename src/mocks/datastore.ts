@@ -91,7 +91,7 @@ const dataRows: bo.Row[] = [
   },
 ];
 
-const CreateData = (
+export const CreateData = (
   arg1: number,
   arg2: { [key: string]: any }
 ): Promise<bo.SimpleResp> => {
@@ -99,39 +99,41 @@ const CreateData = (
   return Promise.resolve({ data: 'ok', error: undefined });
 };
 
-const CreateDatastore = (
+export const CreateDatastore = (
   arg1: bo.CreateDatastoreReq
 ): Promise<bo.SimpleResp> => {
   // 实现创建数据存储的逻辑
   return Promise.resolve({ data: 'ok', error: undefined });
 };
 
-const CreateMapping = (arg1: bo.CreateMappingReq): Promise<bo.SimpleResp> => {
+export const CreateMapping = (
+  arg1: bo.CreateMappingReq
+): Promise<bo.SimpleResp> => {
   // 实现创建映射的逻辑
   return Promise.resolve({ data: 'ok', error: undefined });
 };
 
-const DeleteDatastore = (arg1: number): Promise<bo.SimpleResp> => {
+export const DeleteDatastore = (arg1: number): Promise<bo.SimpleResp> => {
   // 实现删除数据存储的逻辑
   return Promise.resolve({ data: 'ok', error: undefined });
 };
 
-const GetData = (arg1: number, arg2: number): Promise<bo.Row> => {
+export const GetData = (arg1: number, arg2: number): Promise<bo.Row> => {
   // 实现获取数据的逻辑
   return Promise.resolve({ id: 1, data: { id: 1, name: 'test', age: 18 } });
 };
 
-const GetDatastore = (arg1: number): Promise<bo.GetDatastoreResp> => {
+export const GetDatastore = (arg1: number): Promise<bo.GetDatastoreResp> => {
   // 实现获取数据存储的逻辑
   return Promise.resolve({ data: datastores[0], error: undefined });
 };
 
-const GetMapping = (arg1: number): Promise<bo.GetMappingResp> => {
+export const GetMapping = (arg1: number): Promise<bo.GetMappingResp> => {
   // 实现获取映射的逻辑
   return Promise.resolve({ data: mappings[0], error: undefined });
 };
 
-const ImportData = (
+export const ImportData = (
   arg1: number,
   arg2: string,
   arg3: string,
@@ -141,7 +143,7 @@ const ImportData = (
   return Promise.resolve({ data: 'ok', error: undefined });
 };
 
-const MergeData = (
+export const MergeData = (
   arg1: number,
   arg2: number,
   arg3: number
@@ -156,7 +158,9 @@ const MergeData = (
 //     fields?: Field[];
 //     error?: string;
 //   }
-const SearchData = (arg1: bo.SearchDataReq): Promise<bo.SearchDataResp> => {
+export const SearchData = (
+  arg1: bo.SearchDataReq
+): Promise<bo.SearchDataResp> => {
   // 实现搜索数据的逻辑
   return Promise.resolve({
     page: { total: dataRows.length, num: 1, size: 10 },
@@ -166,7 +170,7 @@ const SearchData = (arg1: bo.SearchDataReq): Promise<bo.SearchDataResp> => {
   });
 };
 
-const SearchDatastoreList = (
+export const SearchDatastoreList = (
   arg1: bo.SearchDatastoreReq
 ): Promise<bo.SearchDatastoreResp> => {
   // 实现搜索数据存储列表的逻辑
@@ -177,7 +181,7 @@ const SearchDatastoreList = (
   });
 };
 
-const SearchMapping = (arg1: number): Promise<bo.SearchMappingResp> => {
+export const SearchMapping = (arg1: number): Promise<bo.SearchMappingResp> => {
   // 实现搜索映射的逻辑
   return Promise.resolve({
     page: { total: mappings.length, num: 1, size: 10 },
@@ -186,7 +190,7 @@ const SearchMapping = (arg1: number): Promise<bo.SearchMappingResp> => {
   });
 };
 
-const Sync = (
+export const Sync = (
   arg1: number,
   arg2: string,
   arg3: { [key: string]: string }
@@ -195,7 +199,7 @@ const Sync = (
   return Promise.resolve({ data: 'ok', error: undefined });
 };
 
-const UpdateData = (
+export const UpdateData = (
   arg1: number,
   arg2: number,
   arg3: { [key: string]: any }
@@ -204,47 +208,23 @@ const UpdateData = (
   return Promise.resolve({ data: 'ok', error: undefined });
 };
 
-const UpdateDatastore = (
+export const UpdateDatastore = (
   arg1: bo.UpdateDatastoreReq
 ): Promise<bo.SimpleResp> => {
   // 实现更新数据存储的逻辑
   return Promise.resolve({ data: 'ok', error: undefined });
 };
 
-const UpdateDatastoreSchema = (
+export const UpdateDatastoreSchema = (
   arg1: bo.UpdateDatastoreSchemaReq
 ): Promise<bo.SimpleResp> => {
   // 实现更新数据存储schema的逻辑
   return Promise.resolve({ data: 'ok', error: undefined });
 };
 
-const UpdateMapping = (arg1: bo.UpdateMappingReq): Promise<bo.SimpleResp> => {
+export const UpdateMapping = (
+  arg1: bo.UpdateMappingReq
+): Promise<bo.SimpleResp> => {
   // 实现更新映射的逻辑
   return Promise.resolve({ data: 'ok', error: undefined });
-};
-
-export const initData = () => {
-  window['go'] = {
-    service: {
-      Data: {
-        CreateData,
-        CreateDatastore,
-        CreateMapping,
-        DeleteDatastore,
-        GetData,
-        GetDatastore,
-        GetMapping,
-        ImportData,
-        MergeData,
-        SearchData,
-        SearchDatastoreList,
-        SearchMapping,
-        Sync,
-        UpdateData,
-        UpdateDatastore,
-        UpdateDatastoreSchema,
-        UpdateMapping,
-      },
-    },
-  };
 };

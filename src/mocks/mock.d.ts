@@ -33,62 +33,6 @@ declare interface Window {
         UpdateCategory?: (arg1: bo.UpdateCategoryReq) => Promise<bo.SimpleResp>;
       };
       Datastore?: {
-        CreateDatastore?: (
-          arg1: bo.CreateDatastoreReq
-        ) => Promise<bo.SimpleResp>;
-        DeleteDatastore?: (arg1: number) => Promise<bo.SimpleResp>;
-        GetDatastore?: (arg1: number) => Promise<bo.GetDatastoreResp>;
-        SearchDatastoreList?: (
-          arg1: bo.SearchDatastoreReq
-        ) => Promise<bo.SearchDatastoreResp>;
-        UpdateDatastore?: (
-          arg1: bo.UpdateDatastoreReq
-        ) => Promise<bo.SimpleResp>;
-        UpdateDatastoreSchema?: (
-          arg1: bo.UpdateDatastoreSchemaReq
-        ) => Promise<bo.SimpleResp>;
-      };
-      Mapping?: {
-        CreateMapping?: (arg1: bo.CreateMappingReq) => Promise<bo.SimpleResp>;
-        DeleteMapping?: (arg1: number) => Promise<bo.SimpleResp>;
-        GetMapping?: (arg1: number) => Promise<bo.GetMappingResp>;
-        SearchMappings?: (
-          arg1: bo.SearchMappingReq
-        ) => Promise<bo.SearchMappingResp>;
-        UpdateMapping?: (arg1: bo.UpdateMappingReq) => Promise<bo.SimpleResp>;
-      };
-      Product?: {
-        CreateProduct?: (arg1: bo.CreateProductReq) => Promise<bo.SimpleResp>;
-        DiscontinuedConfirm?: (arg1: number) => Promise<bo.SimpleResp>;
-        DiscontinuedProduct?: (
-          arg1: number,
-          arg2: number
-        ) => Promise<bo.SimpleResp>;
-        GetProductDetail?: (arg1: number) => Promise<bo.GetDetailResp>;
-        LaunchProduct?: (arg1: number, arg2: number) => Promise<bo.SimpleResp>;
-        LaunchedConfirm?: (
-          arg1: number,
-          arg2: string
-        ) => Promise<bo.SimpleResp>;
-        SearchProductList?: (
-          arg1: bo.SearchProductReq
-        ) => Promise<bo.SearchProductResp>;
-        UpdateProduct?: (arg1: number, arg2: number) => Promise<bo.SimpleResp>;
-      };
-      Store?: {
-        CreateStore?: (arg1: string, arg2: string) => Promise<bo.SimpleResp>;
-        DeleteStore?: (arg1: number) => Promise<bo.SimpleResp>;
-        GetStore?: (arg1: number) => Promise<bo.GetStoreResp>;
-        SearchStoreList?: (
-          arg1: bo.SearchStoreReq
-        ) => Promise<bo.SearchStoreResp>;
-        UpdateStore?: (
-          arg1: number,
-          arg2: string,
-          arg3: string
-        ) => Promise<bo.SimpleResp>;
-      };
-      Data?: {
         CreateData?: (
           arg1: number,
           arg2: { [key: string]: any }
@@ -134,6 +78,37 @@ declare interface Window {
           arg1: bo.UpdateDatastoreSchemaReq
         ) => Promise<bo.SimpleResp>;
         UpdateMapping?: (arg1: bo.UpdateMappingReq) => Promise<bo.SimpleResp>;
+      };
+      Product?: {
+        CreateProduct?: (arg1: bo.CreateProductReq) => Promise<bo.SimpleResp>;
+        DiscontinuedConfirm?: (arg1: number) => Promise<bo.SimpleResp>;
+        DiscontinuedProduct?: (
+          arg1: number,
+          arg2: number
+        ) => Promise<bo.SimpleResp>;
+        GetProductDetail?: (arg1: number) => Promise<bo.GetDetailResp>;
+        LaunchProduct?: (arg1: number, arg2: number) => Promise<bo.SimpleResp>;
+        LaunchedConfirm?: (
+          arg1: number,
+          arg2: string
+        ) => Promise<bo.SimpleResp>;
+        SearchProductList?: (
+          arg1: bo.SearchProductReq
+        ) => Promise<bo.SearchProductResp>;
+        UpdateProduct?: (arg1: number, arg2: number) => Promise<bo.SimpleResp>;
+      };
+      Store?: {
+        CreateStore?: (arg1: string, arg2: string) => Promise<bo.SimpleResp>;
+        DeleteStore?: (arg1: number) => Promise<bo.SimpleResp>;
+        GetStore?: (arg1: number) => Promise<bo.GetStoreResp>;
+        SearchStoreList?: (
+          arg1: bo.SearchStoreReq
+        ) => Promise<bo.SearchStoreResp>;
+        UpdateStore?: (
+          arg1: number,
+          arg2: string,
+          arg3: string
+        ) => Promise<bo.SimpleResp>;
       };
       Utils?: {
         GetCityList?: () => Promise<Array<bo.City>>;

@@ -37,6 +37,8 @@ const ImageInputSetting: FC<ImageInputSettingProps> = ({ extra }) => {
         extra: {
           ...selected.extra,
           name: nameValue,
+          width: selected.extra?.width ?? 120,
+          widget: selected.extra?.widget ?? 'image',
           title: titleValue,
           placeholder: placeholderValue,
           desc: descValue,

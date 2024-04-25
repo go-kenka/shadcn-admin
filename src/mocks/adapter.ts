@@ -19,7 +19,9 @@ const adapterData: bo.Adapter[] = [
   },
 ];
 
-const CreateAdapter = (arg1: bo.CreateAdapterReq): Promise<bo.SimpleResp> => {
+export const CreateAdapter = (
+  arg1: bo.CreateAdapterReq
+): Promise<bo.SimpleResp> => {
   const newAdapter = {
     id: adapterData.length + 1,
     name: arg1.name,
@@ -35,7 +37,7 @@ const CreateAdapter = (arg1: bo.CreateAdapterReq): Promise<bo.SimpleResp> => {
   });
 };
 
-const DeleteAdapter = (arg1: number): Promise<bo.SimpleResp> => {
+export const DeleteAdapter = (arg1: number): Promise<bo.SimpleResp> => {
   const index = adapterData.findIndex((adapter) => adapter.id === arg1);
   if (index !== -1) {
     adapterData.splice(index, 1);
@@ -48,7 +50,7 @@ const DeleteAdapter = (arg1: number): Promise<bo.SimpleResp> => {
   }
 };
 
-const GetAdapter = (arg1: number): Promise<bo.GetAdapterResp> => {
+export const GetAdapter = (arg1: number): Promise<bo.GetAdapterResp> => {
   const adapter = adapterData.find((adapter) => adapter.id === arg1);
   if (adapter) {
     return Promise.resolve({ adapter, error: undefined });
@@ -57,7 +59,7 @@ const GetAdapter = (arg1: number): Promise<bo.GetAdapterResp> => {
   }
 };
 
-const SearchAdapters = (
+export const SearchAdapters = (
   arg1: bo.SearchAdapterReq
 ): Promise<bo.SearchAdapterResp> => {
   const { page, id, name } = arg1;
@@ -79,7 +81,9 @@ const SearchAdapters = (
   });
 };
 
-const UpdateAdapter = (arg1: bo.UpdateAdapterReq): Promise<bo.SimpleResp> => {
+export const UpdateAdapter = (
+  arg1: bo.UpdateAdapterReq
+): Promise<bo.SimpleResp> => {
   const index = adapterData.findIndex((adapter) => adapter.id === arg1.id);
   if (index !== -1) {
     adapterData[index].name = arg1.name || adapterData[index].name;
@@ -93,18 +97,4 @@ const UpdateAdapter = (arg1: bo.UpdateAdapterReq): Promise<bo.SimpleResp> => {
   } else {
     return Promise.resolve({ data: undefined, error: 'Adapter not found' });
   }
-};
-
-export const initAdapter = () => {
-  window['go'] = {
-    service: {
-      Adapter: {
-        CreateAdapter,
-        DeleteAdapter,
-        GetAdapter,
-        SearchAdapters,
-        UpdateAdapter,
-      },
-    },
-  };
 };

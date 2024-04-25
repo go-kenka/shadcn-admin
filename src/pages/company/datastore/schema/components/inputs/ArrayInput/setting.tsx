@@ -37,6 +37,8 @@ const ArrayInputSetting: FC<ArrayInputSettingProps> = ({ extra }) => {
         extra: {
           ...selected.extra,
           name: nameValue,
+          width: selected.extra?.width ?? 120,
+          widget: selected.extra?.widget ?? 'array',
           title: titleValue,
           placeholder: placeholderValue,
           desc: descValue,

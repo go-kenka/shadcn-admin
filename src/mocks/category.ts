@@ -19,7 +19,9 @@ const categoryData: bo.Category[] = [
   },
 ];
 
-const CreateCategory = (arg1: bo.CreateCategoryReq): Promise<bo.SimpleResp> => {
+export const CreateCategory = (
+  arg1: bo.CreateCategoryReq
+): Promise<bo.SimpleResp> => {
   const newCategory = {
     id: categoryData.length + 1,
     aid: arg1.aid,
@@ -35,7 +37,7 @@ const CreateCategory = (arg1: bo.CreateCategoryReq): Promise<bo.SimpleResp> => {
   });
 };
 
-const DeleteCategory = (arg1: number): Promise<bo.SimpleResp> => {
+export const DeleteCategory = (arg1: number): Promise<bo.SimpleResp> => {
   const index = categoryData.findIndex((category) => category.id === arg1);
   if (index !== -1) {
     categoryData.splice(index, 1);
@@ -48,7 +50,7 @@ const DeleteCategory = (arg1: number): Promise<bo.SimpleResp> => {
   }
 };
 
-const GetCategory = (arg1: number): Promise<bo.GetCategoryResp> => {
+export const GetCategory = (arg1: number): Promise<bo.GetCategoryResp> => {
   const category = categoryData.find((category) => category.id === arg1);
   if (category) {
     return Promise.resolve({ category, error: undefined });
@@ -60,7 +62,7 @@ const GetCategory = (arg1: number): Promise<bo.GetCategoryResp> => {
   }
 };
 
-const SearchCategoryList = (
+export const SearchCategoryList = (
   arg1: bo.SearchCategoryReq
 ): Promise<bo.SearchCategoryResp> => {
   const { tree } = arg1;
@@ -73,7 +75,9 @@ const SearchCategoryList = (
   }
 };
 
-const UpdateCategory = (arg1: bo.UpdateCategoryReq): Promise<bo.SimpleResp> => {
+export const UpdateCategory = (
+  arg1: bo.UpdateCategoryReq
+): Promise<bo.SimpleResp> => {
   const index = categoryData.findIndex((category) => category.id === arg1.id);
   if (index !== -1) {
     categoryData[index].aid = arg1.aid || categoryData[index].aid;
@@ -88,18 +92,4 @@ const UpdateCategory = (arg1: bo.UpdateCategoryReq): Promise<bo.SimpleResp> => {
   } else {
     return Promise.resolve({ data: undefined, error: 'Category not found' });
   }
-};
-
-export const initCategory = () => {
-  window['go'] = {
-    service: {
-      Category: {
-        CreateCategory,
-        DeleteCategory,
-        GetCategory,
-        SearchCategoryList,
-        UpdateCategory,
-      },
-    },
-  };
 };

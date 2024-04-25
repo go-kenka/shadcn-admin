@@ -1,6 +1,8 @@
 import { Button } from '@/components/custom/button';
+import Empty from '@/components/custom/emptu';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -46,6 +48,14 @@ export const SchemaPreview: React.FC<SchemaPreviewProps> = ({
   }, [widgets]);
 
   const generateDOM = () => {
+    if (components.length === 0)
+      return (
+        <Empty
+          key={'empty'}
+          data-grid={{ w: 12, h: 24, x: 0, y: 0, i: 'empty' }}
+        />
+      );
+
     return components.map((l: Component, i: number) => {
       l.isDraggable = false;
       const w = l.extra?.widget;
@@ -149,9 +159,11 @@ export const SchemaPreview: React.FC<SchemaPreviewProps> = ({
               </ReactGridLayout>
             </div>
             <DialogFooter>
-              <Button type='reset' variant={'secondary'}>
-                取消
-              </Button>
+              <DialogClose asChild>
+                <Button type='reset' variant={'secondary'}>
+                  取消
+                </Button>
+              </DialogClose>
               <Button type='submit' variant={'default'}>
                 提交
               </Button>

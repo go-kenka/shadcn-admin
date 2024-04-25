@@ -37,6 +37,8 @@ const NumberInputSetting: FC<NumberInputSettingProps> = ({ extra }) => {
         extra: {
           ...selected.extra,
           name: nameValue,
+          width: selected.extra?.width ?? 120,
+          widget: selected.extra?.widget ?? 'number',
           title: titleValue,
           placeholder: placeholderValue,
           desc: descValue,

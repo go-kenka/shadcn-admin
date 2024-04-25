@@ -1,12 +1,16 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { toast } from '@/components/ui/use-toast';
+import { GetDatastore } from '@/wailsjs/go/service/Datastore';
 import { IconCube } from '@tabler/icons-react';
-import { useState, type FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
+import { useParams } from 'react-router-dom';
 import Inputs from './inputs';
 import SchemaBuilder from './schema-builder';
 import SchemaPreview from './schema-preview';
 import SchemaTable from './schema-table';
 import Settings from './settings';
+import useWidgetStore from './store/inputs';
 import ArrayInput from './toolbox/array';
 import BooleanInput from './toolbox/boolean';
 import ImageInput from './toolbox/image';
@@ -18,8 +22,32 @@ import TextareaInput from './toolbox/textarea';
 interface SchemaEditorProps {}
 
 const SchemaEditor: FC<SchemaEditorProps> = ({}) => {
-  const [pre, setPre] = useState(false);
-  const [col, setCol] = useState<number>(2);
+  const { cid } = useParams();
+  const [id, setId] = useState(Number(cid));
+  const cols = useWidgetStore.use.cols();
+  const update = useWidgetStore.use.updatePanelComponents();
+  const setCols = useWidgetStore.use.setCols();
+
+  useEffect(() => {
+    if (cid) {
+      setId(Number(cid));
+    }
+  }, [cid]);
+
+  useEffect(() => {
+    GetDatastore(id).then((ds) => {
+      if (ds.error) {
+        toast({
+          title: '获取数据失败',
+          description: ds.error,
+        });
+        return;
+      }
+
+      update(ds.datastore?.schema?.components || []);
+      setCols(ds.datastore?.schema?.cols || 2);
+    });
+  }, [id]);
 
   const editor = () => {
     return (
@@ -39,7 +67,7 @@ const SchemaEditor: FC<SchemaEditorProps> = ({}) => {
           />
         </div>
         <div className='w-full rounded border p-2'>
-          <SchemaBuilder cols={col} />
+          <SchemaBuilder cols={cols} />
         </div>
         <div className='w-[400px] rounded border p-2'>
           <div>属性栏</div>
@@ -64,10 +92,10 @@ const SchemaEditor: FC<SchemaEditorProps> = ({}) => {
               step={1}
               min={1}
               max={12}
-              value={col}
-              onChange={(e) => setCol(Number(e.target.value))}
+              value={cols}
+              onChange={(e) => setCols(Number(e.target.value))}
             />
-            <SchemaPreview cols={col} />
+            <SchemaPreview cols={cols} />
             <SchemaTable />
           </div>
         </CardHeader>
