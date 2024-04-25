@@ -10,10 +10,10 @@ import 'react-resizable/css/styles.css';
 import { RouterProvider } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import { mockData } from './mocks';
+// import { mockData } from './mocks';
 
 // Mock data
-mockData();
+// mockData();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

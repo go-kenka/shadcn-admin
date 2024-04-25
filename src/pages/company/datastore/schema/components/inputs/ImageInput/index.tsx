@@ -22,7 +22,7 @@ interface ImageInputProps {
   extra: ImageInputExtraProps;
 }
 
-const ImageInput: FC<ImageInputProps> = ({ className, extra }) => {
+const ImageInput: FC<ImageInputProps> = ({ extra }) => {
   const { control, getValues } = useFormContext(); // retrieve all hook methods
   const [current, setCurrent] = useState<ImageInputExtraProps>(extra);
   const [value, setValue] = useState<string>('');

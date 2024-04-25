@@ -19,20 +19,18 @@ interface ArrayInputProps {
 
 const ArrayInput: FC<ArrayInputProps> = ({ className, extra }) => {
   const { control, getValues, register } = useFormContext(); // retrieve all hook methods
-  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
-    {
-      control, // control props comes from useForm (optional: if you are using FormProvider)
-      name: extra.name, // unique name for your Field Array
-    }
-  );
+  const { fields, append, remove } = useFieldArray({
+    control, // control props comes from useForm (optional: if you are using FormProvider)
+    name: extra.name, // unique name for your Field Array
+  });
 
   const [current, setCurrent] = useState<ArrayInputExtraProps>(extra);
-  const [value, setValue] = useState<string>('');
+  // const [value, setValue] = useState<string>('');
 
   useEffect(() => {
     if (current.name !== extra.name) {
       const ov = getValues(current.name);
-      setValue(ov);
+      // setValue(ov);
       control.unregister(current.name);
       control.register(extra.name, { value: ov });
       setCurrent(extra);
@@ -58,6 +56,7 @@ const ArrayInput: FC<ArrayInputProps> = ({ className, extra }) => {
       {fields.map((f, index) => (
         <div className='flex flex-row items-center justify-between gap-2 pb-2 pl-1 pr-1 pt-2'>
           <Input
+            className={className}
             key={f.id} // important to include key with field's id
             placeholder={extra.placeholder}
             {...register(`${extra.name}.${index}`)}

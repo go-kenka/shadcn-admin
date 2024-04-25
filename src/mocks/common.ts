@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { bo } from '@/wailsjs/go/models';
 
 const cities: bo.City[] = [

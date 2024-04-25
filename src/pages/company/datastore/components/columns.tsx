@@ -6,6 +6,7 @@ import { DataTableRowActions } from './data-table-row-actions';
 
 import { bo } from '@/wailsjs/go/models';
 import { adapters } from '../../data/data';
+import dayjs from 'dayjs';
 
 export const columns: ColumnDef<bo.Datastore>[] = [
   {
@@ -95,7 +96,9 @@ export const columns: ColumnDef<bo.Datastore>[] = [
     cell: ({ row }) => {
       return (
         <div className='flex w-[150px] items-center'>
-          <span>{row.getValue('created_at')}</span>
+          <span>
+            {dayjs(row.getValue('created_at')).format('YYYY-MM-DD HH:mm:ss')}
+          </span>
         </div>
       );
     },
@@ -109,7 +112,9 @@ export const columns: ColumnDef<bo.Datastore>[] = [
     cell: ({ row }) => {
       return (
         <div className='flex w-[150px] items-center'>
-          <span>{row.getValue('updated_at')}</span>
+          <span>
+            {dayjs(row.getValue('updated_at')).format('YYYY-MM-DD HH:mm:ss')}
+          </span>
         </div>
       );
     },

@@ -56,7 +56,7 @@ export const FileUpload: FC<FileUploadProps> = ({
         {...api.itemGroupProps}
         className='mt-2 flex h-[50px] w-full flex-col gap-2 overflow-auto'
       >
-        {api.acceptedFiles.map((file, i) => (
+        {api.acceptedFiles.map((file) => (
           <li
             key={file.name}
             {...api.getItemProps({ file })}

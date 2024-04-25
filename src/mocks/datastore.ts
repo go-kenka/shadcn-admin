@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { bo } from '@/wailsjs/go/models';
 
 // 模拟数据存储

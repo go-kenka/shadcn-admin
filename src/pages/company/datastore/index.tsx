@@ -7,15 +7,16 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import DeleteCompany from '../components/delete-company';
 import UpdateCompany from '../components/update-company';
-import { datastores } from '../data/datastore';
 import { useCompanyStore } from '../store/company';
 import { columns } from './components/columns';
 import { DataTable } from './components/data-table';
+import { SearchDatastoreList } from '@/wailsjs/go/service/Datastore';
 
 export default function Datastores() {
   const { cid } = useParams();
   const id = Number(cid);
   const getCy = useCompanyStore(({ get }) => get);
+  const [data, setData] = useState<bo.Datastore[]>([]);
 
   const [cm, setCm] = useState<bo.Company>({});
 
@@ -23,7 +24,20 @@ export default function Datastores() {
     getCy(id).then((res) => {
       setCm(res ?? {});
     });
-  }, []);
+  }, [cid]);
+
+  useEffect(() => {
+    SearchDatastoreList({
+      page: {
+        num: 1,
+        size: 10,
+      },
+      id: id,
+      name: '',
+    }).then((res) => {
+      setData(res.list || []);
+    });
+  }, [cm]);
 
   return (
     <Layout>
@@ -50,7 +64,7 @@ export default function Datastores() {
           </div>
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
-          <DataTable data={datastores} columns={columns} />
+          <DataTable data={data} columns={columns} />
         </div>
       </LayoutBody>
     </Layout>
