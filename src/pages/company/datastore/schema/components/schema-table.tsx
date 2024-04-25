@@ -47,6 +47,7 @@ export const SchemaTable: React.FC<SchemaTableProps> = ({
   const widgets = useWidgetStore.use.panelComponents();
   const update = useWidgetStore.use.updatePanelComponents();
   const [components, setComponents] = useState(cloneDeep(widgets));
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setComponents(cloneDeep(widgets));
@@ -96,6 +97,7 @@ export const SchemaTable: React.FC<SchemaTableProps> = ({
       title: '成功',
       description: '保存成功',
     });
+    setOpen(false);
     navigate(-1);
   };
 
@@ -169,7 +171,7 @@ export const SchemaTable: React.FC<SchemaTableProps> = ({
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={(v) => setOpen(v)}>
       <DialogTrigger asChild>
         <Button variant='default'>保存</Button>
       </DialogTrigger>

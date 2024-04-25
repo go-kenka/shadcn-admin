@@ -1,4 +1,4 @@
-import { IconTextCaption } from '@tabler/icons-react';
+import { IconTextWrap } from '@tabler/icons-react';
 import { type FC } from 'react';
 import useWidgetStore from '../store/inputs';
 
@@ -16,8 +16,8 @@ const TextareaInput: FC<TextareaProps> = () => {
         e.dataTransfer.setData('text/plain', 'textarea');
       }}
     >
-      <IconTextCaption className='h-4' />
-      长文本(20+)
+      <IconTextWrap className='h-4' />
+      长文本(long text)
     </div>
   );
 };

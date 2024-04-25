@@ -17,7 +17,7 @@ const ImageInput: FC<ImageProps> = () => {
       }}
     >
       <IconPhoto className='h-4' />
-      图片(url)
+      图片(image url)
     </div>
   );
 };

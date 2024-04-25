@@ -1,4 +1,4 @@
-import { IconList } from '@tabler/icons-react';
+import { IconLayoutList } from '@tabler/icons-react';
 import { type FC } from 'react';
 import useWidgetStore from '../store/inputs';
 
@@ -16,8 +16,8 @@ const ArrayInput: FC<ArrayProps> = () => {
         e.dataTransfer.setData('text/plain', 'array');
       }}
     >
-      <IconList className='h-4' />
-      数组(list)
+      <IconLayoutList className='h-4' />
+      数组(array)
     </div>
   );
 };

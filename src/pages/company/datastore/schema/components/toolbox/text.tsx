@@ -1,4 +1,4 @@
-import { IconCursorText } from '@tabler/icons-react';
+import { IconLetterCase } from '@tabler/icons-react';
 import { type FC } from 'react';
 import useWidgetStore from '../store/inputs';
 
@@ -16,8 +16,8 @@ const TextInput: FC<TextProps> = () => {
         e.dataTransfer.setData('text/plain', 'text');
       }}
     >
-      <IconCursorText className='h-4' />
-      文本(20)
+      <IconLetterCase className='h-4' />
+      文本(string)
     </div>
   );
 };
