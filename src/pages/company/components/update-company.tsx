@@ -41,7 +41,7 @@ const UpdateCompany: FC<UpdateCompanyProps> = ({ id }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={'outline'} size={'sm'}>
+        <Button variant={'outline'} size={'sm'} className='gap-2'>
           <GearIcon className='h-5' />
           编辑
         </Button>
