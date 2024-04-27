@@ -1,5 +1,12 @@
 import { Button } from '@/components/custom/button';
-import Empty from '@/components/custom/emptu';
+import Empty from '@/components/custom/empty';
+import ArrayInput from '@/components/inputs/array';
+import BooleanInput from '@/components/inputs/boolean';
+import ImageInput from '@/components/inputs/image';
+import JsonInput from '@/components/inputs/json';
+import NumberInput from '@/components/inputs/number';
+import TextInput from '@/components/inputs/text';
+import TextAreaInput from '@/components/inputs/textarea';
 import {
   Dialog,
   DialogClose,
@@ -10,18 +17,12 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { toast } from '@/components/ui/use-toast';
+import { Component } from '@/data/scheam';
 import { cloneDeep } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import { FormProvider, useForm } from 'react-hook-form';
-import ArrayInput from './inputs/ArrayInput';
-import BooleanInput from './inputs/BooleanInput';
-import ImageInput from './inputs/ImageInput';
-import JsonInput from './inputs/JsonInput';
-import NumberInput from './inputs/NumberInput';
-import TextAreaInput from './inputs/TextAreaInput';
-import TextInput from './inputs/TextInput';
-import useWidgetStore, { Component } from './store/inputs';
+import useWidgetStore from './store/inputs';
 import './styles.css';
 
 export const ReactGridLayout = WidthProvider(RGL);

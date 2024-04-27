@@ -1,6 +1,13 @@
 import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
 import { Search } from '@/components/search';
 import ThemeSwitch from '@/components/theme-switch';
+import { Badge } from '@/components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -17,10 +24,12 @@ import {
   IconSortAscendingLetters,
   IconSortDescendingLetters,
 } from '@tabler/icons-react';
+import dayjs from 'dayjs';
 import { chain } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CreateCompany from './components/create-company';
+import DeleteCompany from './components/delete-company';
 import UpdateCompany from './components/update-company';
 import { useCompanyStore } from './store/company';
 
@@ -119,28 +128,45 @@ export default function CompanyList() {
           </div>
         </div>
         <Separator className='shadow' />
-        <ul className='no-scrollbar grid h-full gap-4  pb-16 pt-4 md:grid-cols-2 lg:grid-cols-3'>
+        <ul className='no-scrollbar flex  flex-wrap gap-4 pb-16 pt-4'>
           {filteredApps.map((app) => (
-            <li
+            <Card
               key={app.name}
-              className='h-[170px] rounded-lg border p-4 hover:shadow-md'
+              className='h-[190px] w-[calc(25%-12px)] rounded-lg border p-4 shadow-none hover:shadow'
             >
-              <div className='mb-8 flex items-center justify-between'>
+              <CardHeader className='flex flex-row justify-between p-2'>
                 <div
                   className={`flex size-10 items-center justify-center rounded-lg bg-muted p-2`}
                 >
                   <IconDatabaseLeak />
                 </div>
-                <UpdateCompany id={app.id ?? 0} />
-              </div>
-              <div
+                <div className='flex flex-col'>
+                  {Math.random() < 0.5 ? (
+                    <Badge variant='default'>合作中</Badge>
+                  ) : (
+                    <Badge variant='destructive'>合作中止</Badge>
+                  )}
+                </div>
+              </CardHeader>
+              <CardContent
                 onClick={() => toInfo(app.id)}
                 className='cursor-pointer rounded p-2'
               >
                 <h2 className='mb-1 font-semibold'>{app.name}</h2>
                 <p className='line-clamp-2 text-gray-500'>{app.desc}</p>
-              </div>
-            </li>
+              </CardContent>
+              <CardFooter className='w-full border-t p-2'>
+                <div className='flex w-full justify-between'>
+                  <span className='flex-1 text-gray-500'>
+                    {dayjs(app.created_at).format('YYYY-MM-DD')}
+                  </span>
+                  <div className='flex items-center gap-2'>
+                    <DeleteCompany id={app.id ?? 0} />
+                    <UpdateCompany id={app.id ?? 0} />
+                  </div>
+                </div>
+              </CardFooter>
+            </Card>
           ))}
         </ul>
       </LayoutBody>

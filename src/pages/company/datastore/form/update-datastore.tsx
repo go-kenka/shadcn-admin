@@ -11,10 +11,6 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { GearIcon } from '@radix-ui/react-icons';
-import { useEffect, useState, type FC } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useDataStore } from '../../store/datastore';
 import {
   Select,
   SelectContent,
@@ -22,11 +18,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useParams } from 'react-router-dom';
-import { SearchAdapters } from '@/wailsjs/go/service/Adapter';
 import { bo } from '@/wailsjs/go/models';
+import { SearchAdapters } from '@/wailsjs/go/service/Adapter';
+import { GearIcon } from '@radix-ui/react-icons';
+import { useEffect, useState, type FC } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
+import { useDataStore } from '../store/datastore';
 
-interface UpdateCompanyProps {
+interface UpdateDatastoreProps {
   id: number;
 }
 
@@ -37,10 +37,9 @@ type IFormInput = {
   aid?: number;
 };
 
-const UpdateCompany: FC<UpdateCompanyProps> = ({ id }) => {
+const UpdateDatastore: FC<UpdateDatastoreProps> = ({ id }) => {
   const { register, handleSubmit, reset, setValue } = useForm<IFormInput>();
-  const update = useDataStore((state) => state.update);
-  const list = useDataStore((state) => state.ds);
+  const { update, ds } = useDataStore();
 
   const { cid } = useParams();
   const [adapters, setAdapters] = useState<bo.Adapter[]>([]);
@@ -54,16 +53,17 @@ const UpdateCompany: FC<UpdateCompanyProps> = ({ id }) => {
       id: 0,
       name: '',
     }).then((res) => {
+      console.log(res);
       setAdapters(res.list || []);
     });
   }, [id]);
 
   useEffect(() => {
-    const ds = list.find((c) => c.id === id);
+    const d = ds.find((c) => c.id === id);
     setValue('c_id', Number(cid));
-    setValue('name', ds?.name || '');
-    setValue('desc', ds?.desc || '');
-    setValue('aid', ds?.aid || 0);
+    setValue('name', d?.name || '');
+    setValue('desc', d?.desc || '');
+    setValue('aid', d?.aid || 0);
   }, [id]);
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
@@ -75,13 +75,12 @@ const UpdateCompany: FC<UpdateCompanyProps> = ({ id }) => {
       <DialogTrigger asChild>
         <Button variant={'outline'} size={'sm'}>
           <GearIcon className='h-5' />
-          编辑
         </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
-            <DialogTitle>添加仓库</DialogTitle>
+            <DialogTitle>修改仓库</DialogTitle>
             <DialogDescription>
               仓库是一个数据集合，用于区别不同的商品类型。
             </DialogDescription>
@@ -103,7 +102,7 @@ const UpdateCompany: FC<UpdateCompanyProps> = ({ id }) => {
                 适配器
               </Label>
               <Select>
-                <SelectTrigger className='w-[180px]'>
+                <SelectTrigger className='w-full'>
                   <SelectValue placeholder='请选择适配器' />
                 </SelectTrigger>
                 <SelectContent>
@@ -111,7 +110,9 @@ const UpdateCompany: FC<UpdateCompanyProps> = ({ id }) => {
                     <SelectItem
                       key={adapter.id}
                       value={adapter.id?.toString() || ''}
-                    ></SelectItem>
+                    >
+                      {adapter.name}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -139,4 +140,4 @@ const UpdateCompany: FC<UpdateCompanyProps> = ({ id }) => {
   );
 };
 
-export default UpdateCompany;
+export default UpdateDatastore;

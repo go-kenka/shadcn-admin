@@ -1,11 +1,12 @@
+import Empty from '@/components/custom/empty';
 import type { FC } from 'react';
-import ArrayInputSetting from './inputs/ArrayInput/setting';
-import BooleanInputSetting from './inputs/BooleanInput/setting';
-import ImageInputSetting from './inputs/ImageInput/setting';
-import JsonInputSetting from './inputs/JsonInput/setting';
-import NumberInputSetting from './inputs/NumberInput/setting';
-import TextAreaInputSetting from './inputs/TextAreaInput/setting';
-import TextInputSetting from './inputs/TextInput/setting';
+import ArrayInputSetting from './setting/array';
+import BooleanInputSetting from './setting/boolean';
+import ImageInputSetting from './setting/image';
+import JsonInputSetting from './setting/json';
+import NumberInputSetting from './setting/number';
+import TextInputSetting from './setting/text';
+import TextAreaInputSetting from './setting/textarea';
 import useWidgetStore from './store/inputs';
 
 interface SettingsProps {}
@@ -94,11 +95,7 @@ const Settings: FC<SettingsProps> = ({}) => {
     default:
       break;
   }
-  return (
-    <div className='flex h-auto items-center justify-center rounded border p-2'>
-      什么都没有
-    </div>
-  );
+  return <Empty />;
 };
 
 export default Settings;

@@ -1,5 +1,5 @@
 import { Button } from '@/components/custom/button';
-import Empty from '@/components/custom/emptu';
+import Empty from '@/components/custom/empty';
 import {
   Dialog,
   DialogClose,
@@ -40,22 +40,19 @@ export const SchemaTable: React.FC<SchemaTableProps> = ({
   defaultWidth = 120,
 }) => {
   const navigate = useNavigate();
-  const { cid } = useParams();
-  const [id, setId] = useState(0);
+  const { did } = useParams();
+  const [id] = useState(Number(did));
   const [primary, setPrimary] = useState('');
   const cols = useWidgetStore.use.cols();
   const widgets = useWidgetStore.use.panelComponents();
   const update = useWidgetStore.use.updatePanelComponents();
+  const select = useWidgetStore.use.updateSelectedComponent();
   const [components, setComponents] = useState(cloneDeep(widgets));
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setComponents(cloneDeep(widgets));
   }, [widgets]);
-
-  useEffect(() => {
-    setId(Number(cid));
-  }, [cid]);
 
   // 保存处理
   const save = async () => {
@@ -98,6 +95,8 @@ export const SchemaTable: React.FC<SchemaTableProps> = ({
       description: '保存成功',
     });
     setOpen(false);
+    update([]);
+    select(null);
     navigate(-1);
   };
 
@@ -108,7 +107,8 @@ export const SchemaTable: React.FC<SchemaTableProps> = ({
       <>
         <Table className={`${className} flex-1`}>
           <TableCaption>
-            表格数据的显示效果与现在设置的宽度、顺序有关。
+            表格数据的显示效果与现在设置的宽度、顺序有关,
+            提示：主键必须是数字类型。
           </TableCaption>
           <TableHeader>
             <TableRow>
@@ -151,7 +151,10 @@ export const SchemaTable: React.FC<SchemaTableProps> = ({
                 <TableCell className='text-right'>
                   <Button
                     variant='outline'
-                    disabled={cm.extra?.name === primary}
+                    disabled={
+                      cm.extra?.name === primary ||
+                      cm.extra?.widget !== 'number'
+                    }
                     onClick={() => {
                       const selected = components.find((c) => c.i === cm.i);
                       if (selected) {

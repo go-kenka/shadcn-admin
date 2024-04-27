@@ -1,5 +1,5 @@
+import { Component } from '@/data/scheam';
 import { nanoid } from 'nanoid';
-import { Layout } from 'react-grid-layout';
 import { create } from 'zustand';
 import createSelectors from './selectors';
 
@@ -10,24 +10,6 @@ let arrayDropItem = { i: nanoid(5), w: 1, h: 2 };
 let imageDropItem = { i: nanoid(5), w: 1, h: 2 };
 
 type dropItemType = 'textarea' | 'json' | 'default' | 'array' | 'image';
-type widgetType =
-  | 'text'
-  | 'textarea'
-  | 'json'
-  | 'number'
-  | 'array'
-  | 'image'
-  | 'boolean';
-
-// 定义组件的结构
-export interface Component extends Layout {
-  extra?: {
-    name: string;
-    width: number;
-    widget: widgetType;
-    [key: string]: any;
-  }; // 其他可能的组件信息
-}
 
 // 定义状态的结构
 interface StoreState {

@@ -12,13 +12,13 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import type { FC } from 'react';
-import { useDataStore } from '../../store/datastore';
+import { useDataStore } from '../store/datastore';
 
-interface DeleteCompanyProps {
+interface DeleteDatastoreProps {
   id: number;
 }
 
-const DeleteCompany: FC<DeleteCompanyProps> = ({ id }) => {
+const DeleteDatastore: FC<DeleteDatastoreProps> = ({ id }) => {
   const del = useDataStore((state) => state.delete);
 
   return (
@@ -26,7 +26,6 @@ const DeleteCompany: FC<DeleteCompanyProps> = ({ id }) => {
       <AlertDialogTrigger asChild>
         <Button variant='destructive' size={'sm'}>
           <Cross2Icon className='h-5' />
-          删除
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -50,4 +49,4 @@ const DeleteCompany: FC<DeleteCompanyProps> = ({ id }) => {
   );
 };
 
-export default DeleteCompany;
+export default DeleteDatastore;

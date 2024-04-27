@@ -1,18 +1,20 @@
+import ArrayInput from '@/components/inputs/array';
+import BooleanInput from '@/components/inputs/boolean';
+import ImageInput from '@/components/inputs/image';
+import JsonInput from '@/components/inputs/json';
+import NumberInput from '@/components/inputs/number';
+import TextInput from '@/components/inputs/text';
+import TextAreaInput from '@/components/inputs/textarea';
 import { Card } from '@/components/ui/card';
 import { toast } from '@/components/ui/use-toast';
+import { Component } from '@/data/scheam';
 import { ColumnsIcon, LayoutIcon } from '@radix-ui/react-icons';
+import { cloneDeep } from 'lodash';
 import { nanoid } from 'nanoid';
 import React from 'react';
 import RGL, { Layout, WidthProvider } from 'react-grid-layout';
 import { FormProvider, useForm } from 'react-hook-form';
-import ArrayInput from './inputs/ArrayInput';
-import BooleanInput from './inputs/BooleanInput';
-import ImageInput from './inputs/ImageInput';
-import JsonInput from './inputs/JsonInput';
-import NumberInput from './inputs/NumberInput';
-import TextAreaInput from './inputs/TextAreaInput';
-import TextInput from './inputs/TextInput';
-import useWidgetStore, { Component } from './store/inputs';
+import useWidgetStore from './store/inputs';
 import './styles.css';
 
 export const ReactGridLayout = WidthProvider(RGL);
@@ -212,8 +214,9 @@ export const SchemaBuilder: React.FC<SchemaBuilderProps> = ({
     extra['width'] = 120;
     item['extra'] = extra;
 
-    widgets.push(item);
-    update(widgets);
+    const cms = cloneDeep(widgets);
+    cms.push(item);
+    update(cms);
     select(item);
   };
 
@@ -276,7 +279,7 @@ export const SchemaBuilder: React.FC<SchemaBuilderProps> = ({
           </div>
 
           <ReactGridLayout
-            className={`${className} overflow-auto rounded border`}
+            className={`${className} mt-2 overflow-auto rounded border`}
             rowHeight={rowHeight}
             layout={widgets}
             cols={cols}

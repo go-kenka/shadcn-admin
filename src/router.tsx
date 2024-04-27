@@ -61,9 +61,16 @@ const router = createBrowserRouter([
             }),
           },
           {
-            path: ':cid/schema',
+            path: ':cid/datastore/:did/schema',
             lazy: async () => ({
               Component: (await import('./pages/company/datastore/schema'))
+                .default,
+            }),
+          },
+          {
+            path: ':cid/datastore/:did/docs',
+            lazy: async () => ({
+              Component: (await import('./pages/company/datastore/document'))
                 .default,
             }),
           },

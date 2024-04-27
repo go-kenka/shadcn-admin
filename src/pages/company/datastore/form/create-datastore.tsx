@@ -11,13 +11,6 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { IconPlus } from '@tabler/icons-react';
-import { useEffect, useState, type FC } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useDataStore } from '../../store/datastore';
-import { useParams } from 'react-router-dom';
-import { SearchAdapters } from '@/wailsjs/go/service/Adapter';
-import { bo } from '@/wailsjs/go/models';
 import {
   Select,
   SelectContent,
@@ -25,6 +18,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { bo } from '@/wailsjs/go/models';
+import { SearchAdapters } from '@/wailsjs/go/service/Adapter';
+import { IconPlus } from '@tabler/icons-react';
+import { useEffect, useState, type FC } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
+import { useDataStore } from '../store/datastore';
 
 interface CreateDatastoreProps {}
 
@@ -66,8 +66,8 @@ const CreateDatastore: FC<CreateDatastoreProps> = ({}) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>
-          <IconPlus className='mr-2 w-5' /> 添加
+        <Button size={'sm'} className='gap-2'>
+          <IconPlus className='w-5' /> 添加
         </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
@@ -95,7 +95,7 @@ const CreateDatastore: FC<CreateDatastoreProps> = ({}) => {
                 适配器
               </Label>
               <Select>
-                <SelectTrigger className='w-[180px]'>
+                <SelectTrigger className='w-full'>
                   <SelectValue placeholder='请选择适配器' />
                 </SelectTrigger>
                 <SelectContent>
@@ -103,7 +103,9 @@ const CreateDatastore: FC<CreateDatastoreProps> = ({}) => {
                     <SelectItem
                       key={adapter.id}
                       value={adapter.id?.toString() || ''}
-                    ></SelectItem>
+                    >
+                      {adapter.name}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>

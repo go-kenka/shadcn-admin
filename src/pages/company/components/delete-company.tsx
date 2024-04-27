@@ -24,7 +24,7 @@ const DeleteCompany: FC<DeleteCompanyProps> = ({ id }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant='destructive' size={'sm'}>
+        <Button variant='secondary' size={'sm'} className='gap-2'>
           <Cross2Icon className='h-5' />
           删除
         </Button>
