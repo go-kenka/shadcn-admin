@@ -342,6 +342,14 @@ export namespace bo {
 	    list?: Store[];
 	    error?: string;
 	}
+	export interface Sheet {
+	    id?: number;
+	    data?: {[key: string]: any};
+	    // Go type: time
+	    created_at?: any;
+	    // Go type: time
+	    updated_at?: any;
+	}
 	export interface SimpleResp {
 	    data?: string;
 	    error?: string;

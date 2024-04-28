@@ -30,6 +30,10 @@ export function GetMapping(arg1) {
   return window['go']['service']['Datastore']['GetMapping'](arg1);
 }
 
+export function GetSheetData(arg1, arg2) {
+  return window['go']['service']['Datastore']['GetSheetData'](arg1, arg2);
+}
+
 export function ImportData(arg1, arg2, arg3, arg4) {
   return window['go']['service']['Datastore']['ImportData'](arg1, arg2, arg3, arg4);
 }
@@ -48,6 +52,10 @@ export function SearchDatastoreList(arg1) {
 
 export function SearchMapping(arg1) {
   return window['go']['service']['Datastore']['SearchMapping'](arg1);
+}
+
+export function SetSheetData(arg1, arg2) {
+  return window['go']['service']['Datastore']['SetSheetData'](arg1, arg2);
 }
 
 export function Sync(arg1, arg2, arg3) {

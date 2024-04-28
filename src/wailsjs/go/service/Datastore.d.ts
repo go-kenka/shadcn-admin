@@ -16,6 +16,8 @@ export function GetDatastore(arg1:number):Promise<bo.GetDatastoreResp>;
 
 export function GetMapping(arg1:number):Promise<bo.GetMappingResp>;
 
+export function GetSheetData(arg1:number,arg2:number):Promise<bo.Sheet>;
+
 export function ImportData(arg1:number,arg2:string,arg3:string,arg4:string):Promise<bo.SimpleResp>;
 
 export function MergeData(arg1:number,arg2:number,arg3:number):Promise<{[key: string]: any}>;
@@ -25,6 +27,8 @@ export function SearchData(arg1:bo.SearchDataReq):Promise<bo.SearchDataResp>;
 export function SearchDatastoreList(arg1:bo.SearchDatastoreReq):Promise<bo.SearchDatastoreResp>;
 
 export function SearchMapping(arg1:number):Promise<bo.SearchMappingResp>;
+
+export function SetSheetData(arg1:number,arg2:{[key: string]: any}):Promise<bo.SimpleResp>;
 
 export function Sync(arg1:number,arg2:string,arg3:{[key: string]: string}):Promise<bo.SimpleResp>;
 
