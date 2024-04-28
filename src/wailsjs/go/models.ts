@@ -48,6 +48,7 @@ export namespace bo {
 	    name?: string;
 	    desc?: string;
 	    aid?: number;
+	    mode?: string;
 	}
 	export interface MappingSet {
 	    title?: string;
@@ -123,7 +124,7 @@ export namespace bo {
 	    aid?: number;
 	    default_mapping?: number;
 	    name?: string;
-	    address?: string;
+	    mode?: number;
 	    desc?: string;
 	    schema?: {[key: string]: any};
 	    fields?: Field[];
@@ -304,8 +305,9 @@ export namespace bo {
 	}
 	export interface SearchDatastoreReq {
 	    page?: PageReq;
-	    id: number;
-	    name: string;
+	    cid: number;
+	    name?: string;
+	    mode?: string;
 	}
 	export interface SearchDatastoreResp {
 	    page?: PageResp;

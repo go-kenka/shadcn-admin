@@ -29,9 +29,11 @@ export function DataTableRowActions<TData>({
       <Button variant={'outline'} size={'sm'} onClick={toViews}>
         <IconSearch className='h-4 w-4' />
       </Button>
-      <Button variant={'outline'} size={'sm'} onClick={toSchema}>
-        <IconColumns className='h-4 w-4' />
-      </Button>
+        {row.getValue('mode') === 1 && (
+            <Button variant={'outline'} size={'sm'} onClick={toSchema}>
+                <IconColumns className='h-4 w-4' />
+            </Button>
+        )}
       <UpdateDatastore id={row.getValue('id')} />
       <DeleteDatastore id={row.getValue('id')} />
     </div>

@@ -1,14 +1,12 @@
 import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
-import Loader from '@/components/loader';
 import { Search } from '@/components/search';
 import ThemeSwitch from '@/components/theme-switch';
 import { UserNav } from '@/components/user-nav';
 import { IconArrowLeft } from '@tabler/icons-react';
 import { useEffect, type FC } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getColumns } from './components/columns';
-import { DataTable } from './components/data-table';
 import { useDocumentStore } from './store/row';
+import Display from '@/pages/company/datastore/document/display.tsx';
 
 interface DocumentsProps {}
 
@@ -16,7 +14,7 @@ const Documents: FC<DocumentsProps> = () => {
   const { did } = useParams();
   const id = Number(did);
   const navigate = useNavigate();
-  const { rows, fields, init, datastore, loading } = useDocumentStore();
+  const { rows, init, datastore } = useDocumentStore();
 
   useEffect(() => {
     console.log('did:', rows);
@@ -50,11 +48,7 @@ const Documents: FC<DocumentsProps> = () => {
             <div className='flex w-[200px] flex-row justify-end space-x-2'></div>
           </div>
           <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
-            {loading ? (
-              <Loader />
-            ) : (
-              <DataTable data={rows} columns={getColumns(fields)} />
-            )}
+            <Display mode={datastore?.mode || 0} />
           </div>
         </LayoutBody>
       </Layout>

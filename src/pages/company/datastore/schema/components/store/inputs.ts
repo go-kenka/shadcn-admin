@@ -1,4 +1,5 @@
 import { Component } from '@/data/scheam';
+import { cloneDeep } from 'lodash';
 import { nanoid } from 'nanoid';
 import { create } from 'zustand';
 import createSelectors from './selectors';
@@ -27,6 +28,7 @@ interface StoreActions {
   updateSelectedComponent: (selectedComponent: Component | null) => void; // 更新选中的组件
   updateDropItme: (type: dropItemType) => void; // 更新选中的组件
   preview: () => Component[]; // 更新选中的组件
+  selected: () => Component | null; // 获取选中的组件
 }
 
 // 初始状态
@@ -48,7 +50,23 @@ const useStoreBase = create<StoreState & StoreActions>()((set, get) => ({
     set(() => ({ componentList: newComponentList })),
   // 更新面板中的组件列表
   updatePanelComponents: (newPanelComponents: Component[]) =>
-    set(() => ({ panelComponents: newPanelComponents })),
+    set((state) => {
+      let selectedComponent = state.selectedComponent;
+      const old = cloneDeep(state.panelComponents);
+      const temp = newPanelComponents.map((component) => {
+        if (component.i === selectedComponent?.i) {
+          selectedComponent = component;
+        }
+
+        const oldComponent = old.find((item) => item.i === component.i);
+        if (oldComponent) {
+          return { ...oldComponent, ...component };
+        }
+        return component;
+      });
+
+      return { panelComponents: temp, selectedComponent: selectedComponent };
+    }),
   // 更新选中的组件
   updateSelectedComponent: (selectedComponent: Component | null) =>
     set((state) => {
@@ -90,6 +108,9 @@ const useStoreBase = create<StoreState & StoreActions>()((set, get) => ({
   },
   preview: () => {
     return get().panelComponents;
+  },
+  selected: () => {
+    return get().selectedComponent;
   },
 }));
 

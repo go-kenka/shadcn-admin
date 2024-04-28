@@ -68,7 +68,7 @@ const UpdateRow: FC<UpdateRowProps> = ({ id }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size={'sm'} className='gap-2'>
+        <Button size={'sm'} variant={'outline'} className='gap-2'>
           <IconEdit className='h-4 w-4' />
         </Button>
       </DialogTrigger>

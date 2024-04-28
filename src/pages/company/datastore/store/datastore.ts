@@ -98,13 +98,13 @@ export const useDataStore = create<DataStoreState>()(
         state.ds = state.ds.filter((cm) => cm.id !== id);
       });
     },
-    search: async (id: number, key: string) => {
+    search: async (cid: number, key: string) => {
       const req: bo.SearchDatastoreReq = {
         page: {
           num: 1,
           size: 1000,
         },
-        id: id,
+        cid: cid,
         name: key,
       };
       const resp = await SearchDatastoreList(req);

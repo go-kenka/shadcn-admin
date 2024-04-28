@@ -6,7 +6,7 @@ import { DataTableRowActions } from './data-table-row-actions';
 
 import { bo } from '@/wailsjs/go/models';
 import dayjs from 'dayjs';
-import { adapters } from '../../data/data';
+import { adapters, modes } from '../../data/data';
 
 export const columns: ColumnDef<bo.Datastore>[] = [
   {
@@ -71,6 +71,29 @@ export const columns: ColumnDef<bo.Datastore>[] = [
     enableSorting: false,
   },
   {
+    accessorKey: 'mode',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='模型' />
+    ),
+    cell: ({ row }) => {
+      const m = modes.find((mi) => mi.value === (row.getValue('mode') || 0));
+      if (!m) {
+        return <div className='flex w-[100px] items-center'>模型异常</div>;
+      }
+
+      return (
+        <div className='flex w-[100px] items-center'>
+          {m.icon && <m.icon className='mr-2 h-4 w-4 text-muted-foreground' />}
+          <span>{m.label}</span>
+        </div>
+      );
+    },
+    filterFn: (row, key, value) => {
+      return value.includes(row.getValue(key));
+    },
+    meta: { title: '模型' },
+  },
+  {
     accessorKey: 'aid',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='适配器' />
@@ -93,8 +116,8 @@ export const columns: ColumnDef<bo.Datastore>[] = [
         </div>
       );
     },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
+    filterFn: (row, key, value) => {
+      return value.includes(row.getValue(key));
     },
     meta: { title: '适配器' },
   },

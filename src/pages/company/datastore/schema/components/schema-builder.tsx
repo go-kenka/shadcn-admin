@@ -9,7 +9,6 @@ import { Card } from '@/components/ui/card';
 import { toast } from '@/components/ui/use-toast';
 import { Component } from '@/data/scheam';
 import { ColumnsIcon, LayoutIcon } from '@radix-ui/react-icons';
-import { cloneDeep } from 'lodash';
 import { nanoid } from 'nanoid';
 import React from 'react';
 import RGL, { Layout, WidthProvider } from 'react-grid-layout';
@@ -214,9 +213,8 @@ export const SchemaBuilder: React.FC<SchemaBuilderProps> = ({
     extra['width'] = 120;
     item['extra'] = extra;
 
-    const cms = cloneDeep(widgets);
-    cms.push(item);
-    update(cms);
+    widgets.push(item);
+    update(widgets);
     select(item);
   };
 
@@ -225,6 +223,11 @@ export const SchemaBuilder: React.FC<SchemaBuilderProps> = ({
     _oldItem: Component,
     newItem: Component
   ) => {
+    console.log(_layout, _oldItem, newItem);
+
+    // 更新数据
+    update(_layout);
+
     const changed = widgets.find((i) => i.i === newItem.i);
     if (changed) {
       changed.x = newItem.x;
@@ -240,6 +243,9 @@ export const SchemaBuilder: React.FC<SchemaBuilderProps> = ({
     _oldItem: Component,
     newItem: Component
   ) => {
+    // 更新数据
+    update(_layout);
+
     const changed = widgets.find((i) => i.i === newItem.i);
     if (changed) {
       changed.x = newItem.x;
@@ -285,8 +291,8 @@ export const SchemaBuilder: React.FC<SchemaBuilderProps> = ({
             cols={cols}
             margin={[1, 1]}
             onDrop={onDrop}
-            onResize={onResize}
-            onDrag={onDropStop}
+            onResizeStop={onResize}
+            onDragStop={onDropStop}
             droppingItem={droppingItem}
             onLayoutChange={onLayoutChange}
             measureBeforeMount={false}

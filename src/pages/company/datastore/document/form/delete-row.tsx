@@ -26,7 +26,7 @@ const DeleteRow: FC<DeleteRowProps> = ({ id }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant='destructive' size={'sm'}>
+        <Button variant='outline' size={'sm'}>
           <Cross2Icon className='h-5' />
         </Button>
       </AlertDialogTrigger>
