@@ -1,26 +1,27 @@
 import '@univerjs/design/lib/index.css';
-import '@univerjs/ui/lib/index.css';
-import '@univerjs/sheets-ui/lib/index.css';
 import '@univerjs/sheets-formula/lib/index.css';
+import '@univerjs/sheets-ui/lib/index.css';
+import '@univerjs/ui/lib/index.css';
 import './index.css';
 
 import { Univer } from '@univerjs/core';
-import { defaultTheme } from '@univerjs/design';
 import { UniverDocsPlugin } from '@univerjs/docs';
+import { UniverDocsUIPlugin } from '@univerjs/docs-ui';
 import { UniverFormulaEnginePlugin } from '@univerjs/engine-formula';
 import { UniverRenderEnginePlugin } from '@univerjs/engine-render';
+import { FUniver } from '@univerjs/facade';
 import { UniverSheetsPlugin } from '@univerjs/sheets';
 import { UniverSheetsFormulaPlugin } from '@univerjs/sheets-formula';
 import { UniverSheetsUIPlugin } from '@univerjs/sheets-ui';
-import { UniverDocsUIPlugin } from '@univerjs/docs-ui';
 import { UniverUIPlugin } from '@univerjs/ui';
-import { FUniver } from '@univerjs/facade';
 import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
   useRef,
 } from 'react';
+import { dark } from './theme';
+// 在这里导入你自定义的主题
 
 interface UniverSheetProps {
   data: any;
@@ -56,7 +57,7 @@ export const UniverSheet = forwardRef<UniverSheetRefObject, UniverSheetProps>(
         throw Error('container not initialized');
       }
       const univer = new Univer({
-        theme: defaultTheme,
+        theme: dark,
       });
       univerRef.current = univer;
 
