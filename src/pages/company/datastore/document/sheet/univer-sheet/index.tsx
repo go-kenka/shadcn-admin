@@ -5,6 +5,7 @@ import '@univerjs/ui/lib/index.css';
 import './index.css';
 
 import { Univer } from '@univerjs/core';
+import { defaultTheme } from '@univerjs/design';
 import { UniverDocsPlugin } from '@univerjs/docs';
 import { UniverDocsUIPlugin } from '@univerjs/docs-ui';
 import { UniverFormulaEnginePlugin } from '@univerjs/engine-formula';
@@ -40,7 +41,6 @@ export const UniverSheet = forwardRef<UniverSheetRefObject, UniverSheetProps>(
     const univerRef = useRef<Univer | null>(null);
     const workbookRef = useRef<any>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    /** @type {React.RefObject<FUniver>} */
     const fUniverRef = useRef<FUniver | null>(null);
 
     useImperativeHandle(ref, () => ({
@@ -48,16 +48,15 @@ export const UniverSheet = forwardRef<UniverSheetRefObject, UniverSheetProps>(
       univerAPI: fUniverRef,
     }));
 
-    /**
-     * Initialize univer instance and workbook instance
-     * @param data {IWorkbookData} document see https://univer.work/api/core/interfaces/IWorkbookData.html
-     */
     const init = (data = {}) => {
       if (!containerRef.current) {
         throw Error('container not initialized');
       }
       const univer = new Univer({
-        theme: dark,
+        theme: {
+          ...defaultTheme,
+          ...dark,
+        },
       });
       univerRef.current = univer;
 
