@@ -30,8 +30,8 @@ export function GetMapping(arg1) {
   return window['go']['service']['Datastore']['GetMapping'](arg1);
 }
 
-export function GetSheetData(arg1, arg2) {
-  return window['go']['service']['Datastore']['GetSheetData'](arg1, arg2);
+export function GetSheetData(arg1) {
+  return window['go']['service']['Datastore']['GetSheetData'](arg1);
 }
 
 export function ImportData(arg1, arg2, arg3, arg4) {

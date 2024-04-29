@@ -16,7 +16,7 @@ export function GetDatastore(arg1:number):Promise<bo.GetDatastoreResp>;
 
 export function GetMapping(arg1:number):Promise<bo.GetMappingResp>;
 
-export function GetSheetData(arg1:number,arg2:number):Promise<bo.Sheet>;
+export function GetSheetData(arg1:number):Promise<bo.Sheet>;
 
 export function ImportData(arg1:number,arg2:string,arg3:string,arg4:string):Promise<bo.SimpleResp>;
 
