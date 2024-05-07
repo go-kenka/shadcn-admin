@@ -101,7 +101,7 @@ function App() {
     <div className='h-[calc(100vh-200px)] rounded border'>
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <UniverSheet
-          className='flex-1'
+          className='flex-1 rounded border'
           ref={univerRef}
           data={data}
           onClick={() => {
