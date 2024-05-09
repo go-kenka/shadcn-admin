@@ -33,24 +33,22 @@ const UpdateRow: FC<UpdateRowProps> = ({ id }) => {
   const [cols, setCols] = useState<number>(2);
 
   useEffect(() => {
-    console.log(datastore);
+    if (did) {
+      // 禁止拖拽
+      const cms = cloneDeep(datastore?.schema?.components ?? []);
+      cms.forEach((l: Component) => {
+        l.isDraggable = false;
+        l.isResizable = false;
+      });
 
-    // 禁止拖拽
-    const cms = cloneDeep(datastore?.schema?.components ?? []);
-    cms.forEach((l: Component) => {
-      l.isDraggable = false;
-      l.isResizable = false;
-    });
-
-    setComponents(cms);
-    setCols(datastore?.schema?.cols ?? 2);
+      setComponents(cms);
+      setCols(datastore?.schema?.cols ?? 2);
+    }
   }, [did]);
 
   useEffect(() => {
     if (id > 0) {
-      console.log('id', id);
       const row = rows.find((r) => r.id?.toString() === id.toString());
-      console.log('row', row);
       if (row) {
         forIn(row.data, (val, key) => {
           form.setValue(key, val);

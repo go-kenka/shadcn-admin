@@ -31,17 +31,17 @@ const CreateRow: FC<CreateRowProps> = ({}) => {
   const [cols, setCols] = useState<number>(2);
 
   useEffect(() => {
-    console.log(datastore);
+    if (did) {
+      // 禁止拖拽
+      const cms = cloneDeep(datastore?.schema?.components ?? []);
+      cms.forEach((l: Component) => {
+        l.isDraggable = false;
+        l.isResizable = false;
+      });
 
-    // 禁止拖拽
-    const cms = cloneDeep(datastore?.schema?.components ?? []);
-    cms.forEach((l: Component) => {
-      l.isDraggable = false;
-      l.isResizable = false;
-    });
-
-    setComponents(cms);
-    setCols(datastore?.schema?.cols ?? 2);
+      setComponents(cms);
+      setCols(datastore?.schema?.cols ?? 2);
+    }
   }, [did]);
 
   const onSubmit: SubmitHandler<Record<string, any>> = async (data) => {
@@ -53,7 +53,7 @@ const CreateRow: FC<CreateRowProps> = ({}) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size={'sm'} className='gap-2'>
+        <Button className='gap-2'>
           <IconPlus className='w-5' /> 添加
         </Button>
       </DialogTrigger>

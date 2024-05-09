@@ -142,7 +142,7 @@ const CreateDatastore: FC<CreateDatastoreProps> = ({}) => {
                               key={adapter.id}
                               value={adapter.id?.toString() || ''}
                             >
-                              {adapter.name}
+                              {adapter.manifest?.name}
                             </SelectItem>
                           ))}
                         </SelectContent>

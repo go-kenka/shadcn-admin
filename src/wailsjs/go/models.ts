@@ -1,9 +1,26 @@
 export namespace bo {
 	
+	export interface Menu {
+	    name: string;
+	    icon: string;
+	    method: string;
+	    children: Menu[];
+	}
+	export interface Manifest {
+	    name: string;
+	    version: string;
+	    desc: string;
+	    icon: string;
+	    cmd: string;
+	    secret: string;
+	    platform: string;
+	    main: string;
+	    menu: Menu[];
+	}
 	export interface Adapter {
 	    id?: number;
-	    name?: string;
 	    plugin?: string;
+	    manifest?: Manifest;
 	    config: {[key: string]: any};
 	    // Go type: time
 	    created_at?: any;
@@ -34,8 +51,7 @@ export namespace bo {
 	    updated_at?: any;
 	}
 	export interface CreateAdapterReq {
-	    name?: string;
-	    plugin?: string;
+	    path?: string;
 	    config?: {[key: string]: any};
 	}
 	export interface CreateCategoryReq {
@@ -62,52 +78,6 @@ export namespace bo {
 	    is_default?: boolean;
 	    desc?: string;
 	    mappings?: MappingSet[];
-	}
-	export interface Item {
-	    sku: string;
-	    title: string;
-	    sale_price: number;
-	    origin_price: number;
-	    channel_price: number;
-	    stock: number;
-	    single_max: number;
-	    code_amount: number;
-	}
-	export interface CreateProductReq {
-	    sid?: number;
-	    lid?: string;
-	    cid?: number;
-	    item_id?: number;
-	    brand?: string;
-	    booking_type?: number;
-	    cities?: string[];
-	    number?: number;
-	    fixed_price?: number;
-	    buy_notice?: string;
-	    spu?: string;
-	    sender_city?: string;
-	    begin_date?: string;
-	    end_date?: string;
-	    consume_store?: string;
-	    title?: string;
-	    simple_desc?: string;
-	    main_image?: string;
-	    png_image?: string;
-	    html_content?: string;
-	    html_content_url?: string;
-	    recharge_address?: string;
-	    category_name?: string;
-	    item_list?: Item[];
-	    field1?: string;
-	    field2?: string;
-	    field3?: string;
-	    field4?: string;
-	    field5?: string;
-	    field6?: string;
-	    field7?: string;
-	    field8?: string;
-	    field9?: string;
-	    field10?: string;
 	}
 	export interface Field {
 	    name: string;
@@ -155,54 +125,49 @@ export namespace bo {
 	    datastore?: Datastore;
 	    error?: string;
 	}
-	export interface Product {
+	export interface Usage {
 	    id?: number;
 	    sid?: number;
-	    lid?: string;
-	    cid?: number;
+	    batch_id?: string;
 	    item_id?: number;
-	    brand?: string;
-	    booking_type?: number;
-	    cities?: string[];
-	    number?: number;
-	    fixed_price?: number;
-	    buy_notice?: string;
-	    spu?: string;
-	    sender_city?: string;
-	    begin_date?: string;
-	    end_date?: string;
-	    consume_store?: string;
-	    title?: string;
-	    simple_desc?: string;
-	    main_image?: string;
-	    png_image?: string;
-	    html_content?: string;
-	    html_content_url?: string;
-	    recharge_address?: string;
-	    category_name?: string;
-	    item_list?: Item[];
-	    field1?: string;
-	    field2?: string;
-	    field3?: string;
-	    field4?: string;
-	    field5?: string;
-	    field6?: string;
-	    field7?: string;
-	    field8?: string;
-	    field9?: string;
-	    field10?: string;
+	    f1?: string;
+	    f2?: string;
+	    f3?: string;
+	    f4?: string;
+	    f5?: string;
+	    f6?: string;
+	    f7?: string;
+	    f8?: string;
+	    f9?: string;
+	    f10?: string;
+	    f11?: string;
+	    f12?: string;
+	    f13?: string;
+	    f14?: string;
+	    f15?: string;
+	    f16?: string;
+	    f17?: string;
+	    f18?: string;
+	    f19?: string;
+	    f20?: string;
+	    f21?: string;
+	    f22?: string;
+	    f23?: string;
+	    f24?: string;
+	    f25?: string;
+	    f26?: string;
+	    f27?: string;
+	    f28?: string;
+	    f29?: string;
+	    f30?: string;
+	    raw_data?: {[key: string]: any};
 	    // Go type: time
 	    created_at?: any;
 	    // Go type: time
 	    updated_at?: any;
-	    status: number;
-	    // Go type: time
-	    launched_time?: any;
-	    // Go type: time
-	    sold_time?: any;
 	}
 	export interface GetDetailResp {
-	    doc?: Product;
+	    doc?: Usage;
 	    error: string;
 	}
 	export interface Mapping {
@@ -235,12 +200,21 @@ export namespace bo {
 	    error?: string;
 	}
 	
+	export interface MapResp {
+	    data?: {[key: string]: any};
+	    error?: string;
+	}
+	
 	export interface MenuItem {
 	    id: string;
 	    name: string;
 	    path: string;
 	    icon: string;
 	    routes: MenuItem[];
+	}
+	export interface MenuResp {
+	    menus?: Menu[];
+	    error?: string;
 	}
 	export interface PageReq {
 	    size: number;
@@ -251,7 +225,6 @@ export namespace bo {
 	    num: number;
 	    total: number;
 	}
-	
 	export interface Row {
 	    id?: number;
 	    data?: {[key: string]: any};
@@ -318,20 +291,6 @@ export namespace bo {
 	    list?: Mapping[];
 	    error?: string;
 	}
-	export interface SearchProductReq {
-	    page?: PageReq;
-	    sid: number;
-	    category?: string;
-	    txt?: string;
-	    city?: string;
-	    status?: number;
-	    item_name?: string;
-	}
-	export interface SearchProductResp {
-	    page?: PageResp;
-	    products: Product[];
-	    error: string;
-	}
 	export interface SearchStoreReq {
 	    page?: PageReq;
 	    id: number;
@@ -341,6 +300,16 @@ export namespace bo {
 	    page?: PageResp;
 	    list?: Store[];
 	    error?: string;
+	}
+	export interface SearchUsageReq {
+	    page?: PageReq;
+	    sid: number;
+	    txt?: string;
+	}
+	export interface SearchUsageResp {
+	    page?: PageResp;
+	    products: Usage[];
+	    error: string;
 	}
 	export interface Sheet {
 	    id?: number;
@@ -358,8 +327,7 @@ export namespace bo {
 	
 	export interface UpdateAdapterReq {
 	    id: number;
-	    name?: string;
-	    plugin?: string;
+	    path?: string;
 	    config?: {[key: string]: any};
 	}
 	export interface UpdateCategoryReq {
