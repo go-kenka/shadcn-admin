@@ -33,6 +33,8 @@ export const getDefaultWorkbookData = ({ did = nanoid(10) }): IWorkbookData => {
       'sheet-01': {
         id: 'sheet-01',
         name: '工作表1',
+        columnCount: 26,
+        rowCount: 100,
         cellData: {},
       },
     },

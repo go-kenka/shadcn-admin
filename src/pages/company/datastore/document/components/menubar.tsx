@@ -9,6 +9,7 @@ import {
   MenubarTrigger,
 } from '@/components/ui/menubar';
 import { bo } from '@/wailsjs/go/models';
+import { nanoid } from 'nanoid';
 import { FC } from 'react';
 
 // 菜单项组件
@@ -19,8 +20,8 @@ export const MenuItem: FC<{ item: bo.Menu }> = ({ item }) => {
       <MenubarSub>
         <MenubarSubTrigger>{item.name}</MenubarSubTrigger>
         <MenubarSubContent>
-          {item.children.map((child) => (
-            <MenuItem key={child.method} item={child} />
+          {item.children.map((child, i) => (
+            <MenuItem key={nanoid(5)} item={child} />
           ))}
         </MenubarSubContent>
       </MenubarSub>
@@ -38,8 +39,8 @@ export const MenuBar: FC<{ items: bo.Menu[]; disabled: boolean }> = ({
 }) => {
   return (
     <Menubar>
-      {items.map((item) => (
-        <MenubarMenu key={item.method}>
+      {items.map((item, i) => (
+        <MenubarMenu key={i}>
           <MenubarTrigger
             disabled={disabled}
             className={disabled ? 'text-gray-400' : ''}
@@ -49,7 +50,7 @@ export const MenuBar: FC<{ items: bo.Menu[]; disabled: boolean }> = ({
           <MenubarContent>
             {item.children &&
               item.children.map((child) => (
-                <MenuItem key={item.method + child.method} item={child} />
+                <MenuItem key={nanoid(5)} item={child} />
               ))}
           </MenubarContent>
         </MenubarMenu>

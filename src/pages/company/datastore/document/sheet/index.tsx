@@ -1,3 +1,10 @@
+import { Button } from '@/components/custom/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { toast } from '@/components/ui/use-toast';
 import UniverSheet from '@/pages/company/datastore/document/sheet/univer-sheet';
 import { getDefaultWorkbookData } from '@/pages/company/datastore/document/sheet/univer-sheet/data.ts';
@@ -7,17 +14,24 @@ import {
   GetSheetData,
   SetSheetData,
 } from '@/wailsjs/go/service/Datastore';
-import { ICommandInfo, IExecutionOptions } from '@univerjs/core';
+import { IconHelpCircle } from '@tabler/icons-react';
+import { ICommandInfo, IExecutionOptions, IRange } from '@univerjs/core';
 import { FUniver } from '@univerjs/facade';
 import { debounce } from 'lodash';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { MenuBar } from '../components/menubar';
 
-function App() {
+const notAllowedCommands = [
+  'sheet.command.insert-col',
+  'sheet.command.remove-col',
+  'sheet.command.insert-sheet',
+  'sheet.command.remove-sheet',
+];
+
+function Sheet() {
   const { did } = useParams();
   const [data, setData] = useState(() => getDefaultWorkbookData({ did }));
-  const [selected, setSelected] = useState<boolean>(false);
   const [selections, setSelections] = useState<any>();
   const [menus, setMenus] = useState<bo.Menu[]>([]);
 
@@ -32,6 +46,7 @@ function App() {
 
   const univerRef = useRef<{
     getData: () => any;
+    onSelectionChange: (selection: any) => void;
     univerAPI: React.RefObject<any>;
   }>(null);
 
@@ -47,16 +62,6 @@ function App() {
         console.log('update success', data);
       });
     }, 1000),
-    []
-  );
-
-  // 同步数据
-  const updateSelections = useCallback(
-    debounce((data: any) => {
-      console.log('updateSelections', data);
-      setSelected(data.endRow - data.startRow > 1);
-      setSelections(data);
-    }, 100),
     []
   );
 
@@ -108,23 +113,37 @@ function App() {
   useEffect(() => {
     const univerAPI: FUniver = univerRef.current?.univerAPI.current;
 
-    univerAPI.onCommandExecuted(
+    const onBefore = univerAPI.onBeforeCommandExecute(
+      (command: Readonly<ICommandInfo<any>>, options?: IExecutionOptions) => {
+        console.log(
+          'beforeCommandExecute',
+          command,
+          notAllowedCommands.includes(command.id)
+        );
+
+        // 不允许添加和删除列和添加或者删除表格
+        if (notAllowedCommands.includes(command.id)) {
+          console.log('Command not allowed');
+          throw new Error('Command not allowed');
+        }
+
+        // // 仅同步本地 mutation
+        // if (
+        //   command.type === 2 ||
+        //   options?.fromCollab ||
+        //   options?.onlyLocal ||
+        //   command.id === 'doc.mutation.rich-text-editing'
+        // ) {
+        //   throw new Error('Command not allowed');
+        // }
+      }
+    );
+
+    const onCommandExecuted = univerAPI.onCommandExecuted(
       async (
         command: Readonly<ICommandInfo<any>>,
         options?: IExecutionOptions
       ) => {
-        // 选择区域
-        if (command.id === 'sheet.operation.set-selections') {
-          const selections = command.params?.selections;
-          if (selections) {
-            const range = selections[0].range;
-            if (range) {
-              updateSelections(range);
-            }
-          }
-          return;
-        }
-
         // 仅同步本地 mutation
         if (
           command.type !== 2 ||
@@ -139,12 +158,32 @@ function App() {
         update(univerRef.current?.getData());
       }
     );
+
+    return () => {
+      onBefore.dispose();
+      onCommandExecuted.dispose();
+    };
   });
 
   return (
     <div className='flex h-full w-full flex-col gap-1'>
-      <div>
-        <MenuBar items={menus} disabled={selected} />
+      <div className='flex flex-row items-center gap-2'>
+        <Button>编辑</Button>
+        <MenuBar items={menus} disabled={false} />
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <IconHelpCircle className='h-4 w-4' />
+            </TooltipTrigger>
+            <TooltipContent>
+              所有处理都将以当前选择行为基准，不论你选择的是多少列，在处理过程中，都会读取当前行的所有列进行数据加工
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <span className='text-xs text-red-500'>
+          当前选择行：
+          {selections?.startRow + 1 + '-' + (selections?.endRow + 1)}
+        </span>
       </div>
       <div className='h-[calc(100vh-230px)] rounded'>
         <div
@@ -154,11 +193,11 @@ function App() {
             className='flex-1 rounded border'
             ref={univerRef}
             data={data}
-            onClick={() => {
-              console.log('click');
-            }}
-            onDbClick={() => {
-              console.log('dbClick');
+            onSelectionChange={(selections: IRange[]) => {
+              if (selections.length > 0) {
+                const range = selections[0];
+                setSelections(range);
+              }
             }}
           />
         </div>
@@ -167,4 +206,4 @@ function App() {
   );
 }
 
-export default App;
+export default Sheet;

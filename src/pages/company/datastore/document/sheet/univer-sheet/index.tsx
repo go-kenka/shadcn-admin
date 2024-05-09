@@ -4,7 +4,7 @@ import '@univerjs/sheets-ui/lib/index.css';
 import '@univerjs/ui/lib/index.css';
 import './index.css';
 
-import { Univer } from '@univerjs/core';
+import { IRange, Univer } from '@univerjs/core';
 import { defaultTheme } from '@univerjs/design';
 import { UniverDocsPlugin } from '@univerjs/docs';
 import { UniverDocsUIPlugin } from '@univerjs/docs-ui';
@@ -21,14 +21,12 @@ import React, {
   useImperativeHandle,
   useRef,
 } from 'react';
-import { dark } from './theme';
 // 在这里导入你自定义的主题
 
 interface UniverSheetProps {
   data: any;
   className?: string;
-  onClick?: (e: any) => void;
-  onDbClick?: () => void;
+  onSelectionChange?: (e: any) => void;
 }
 
 interface UniverSheetRefObject {
@@ -37,7 +35,7 @@ interface UniverSheetRefObject {
 }
 
 export const UniverSheet = forwardRef<UniverSheetRefObject, UniverSheetProps>(
-  ({ data, className, onClick, onDbClick }, ref) => {
+  ({ data, className, onSelectionChange }, ref) => {
     const univerRef = useRef<Univer | null>(null);
     const workbookRef = useRef<any>(null);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -53,10 +51,7 @@ export const UniverSheet = forwardRef<UniverSheetRefObject, UniverSheetProps>(
         throw Error('container not initialized');
       }
       const univer = new Univer({
-        theme: {
-          ...defaultTheme,
-          ...dark,
-        },
+        theme: defaultTheme,
       });
       univerRef.current = univer;
 
@@ -85,6 +80,12 @@ export const UniverSheet = forwardRef<UniverSheetRefObject, UniverSheetProps>(
 
       // craete Facade API instance
       fUniverRef.current = FUniver.newAPI(univer);
+
+      // 监听选区变化
+      const activeWorkbook = fUniverRef?.current?.getActiveWorkbook();
+      activeWorkbook?.onSelectionChange((selections: IRange[]) => {
+        onSelectionChange?.(selections);
+      });
     };
 
     /**
@@ -108,44 +109,10 @@ export const UniverSheet = forwardRef<UniverSheetRefObject, UniverSheetProps>(
 
     useEffect(() => {
       init(data);
-
-      // let clickTime = 0;
-      // let dbClickTime = 0;
-      // const onClickDebounce = (e: any) => {
-      //   // debounce click
-      //   if (Date.now() - dbClickTime < 500) return;
-      //   if (Date.now() - clickTime < 500) return;
-      //   onClick?.(e);
-      //   clickTime = Date.now();
-      // };
-
-      fUniverRef.current?.onCommandExecuted((_command) => {
-        // if (
-        //   command.id === SetSelectionsOperation.id &&
-        //   command.params.type === SelectionMoveType.MOVE_END
-        // ) {
-        //   // mock click event
-        //   setTimeout(() => {
-        //     onClickDebounce?.();
-        //   }, 250);
-        // }
-        //
-        // // mock dbclick event
-        // // use command name string, because command id is not exported
-        // if (command.id === 'sheet.operation.set-cell-edit-visible') {
-        //   // mock dbclick event
-        //   if (command.params.eventType === DeviceInputEventType.Dblclick) {
-        //     dbClickTime = Date.now();
-        //
-        //     onDbClick?.();
-        //   }
-        // }
-      });
-
       return () => {
         destroyUniver();
       };
-    }, [data, onClick, onDbClick]);
+    }, [data]);
 
     return (
       <div ref={containerRef} className={`univer-container ${className}`}></div>
