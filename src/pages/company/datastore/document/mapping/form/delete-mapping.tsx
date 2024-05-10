@@ -12,14 +12,14 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import type { FC } from 'react';
-import { useDataStore } from '../store/datastore';
+import { useMapping } from '../store/mapping.ts';
 
-interface DeleteDatastoreProps {
+interface DeleteMappingProps {
   id: number;
 }
 
-const DeleteDatastore: FC<DeleteDatastoreProps> = ({ id }) => {
-  const del = useDataStore((state) => state.delete);
+const DeleteMapping: FC<DeleteMappingProps> = ({ id }) => {
+  const { delete: del } = useMapping();
 
   return (
     <AlertDialog>
@@ -49,4 +49,4 @@ const DeleteDatastore: FC<DeleteDatastoreProps> = ({ id }) => {
   );
 };
 
-export default DeleteDatastore;
+export default DeleteMapping;

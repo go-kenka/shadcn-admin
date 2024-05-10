@@ -114,7 +114,7 @@ function Sheet() {
     const univerAPI: FUniver = univerRef.current?.univerAPI.current;
 
     const onBefore = univerAPI.onBeforeCommandExecute(
-      (command: Readonly<ICommandInfo<any>>, options?: IExecutionOptions) => {
+      (command: Readonly<ICommandInfo<any>>) => {
         console.log(
           'beforeCommandExecute',
           command,

@@ -11,6 +11,7 @@ import {
 import { bo } from '@/wailsjs/go/models';
 import { nanoid } from 'nanoid';
 import { FC } from 'react';
+import { Button } from '@/components/custom/button.tsx';
 
 // 菜单项组件
 export const MenuItem: FC<{ item: bo.Menu }> = ({ item }) => {
@@ -20,7 +21,7 @@ export const MenuItem: FC<{ item: bo.Menu }> = ({ item }) => {
       <MenubarSub>
         <MenubarSubTrigger>{item.name}</MenubarSubTrigger>
         <MenubarSubContent>
-          {item.children.map((child, i) => (
+          {item.children.map((child) => (
             <MenuItem key={nanoid(5)} item={child} />
           ))}
         </MenubarSubContent>
@@ -37,6 +38,13 @@ export const MenuBar: FC<{ items: bo.Menu[]; disabled: boolean }> = ({
   items,
   disabled,
 }) => {
+  if (items.length === 0) {
+    return (
+      <Button variant={'outline'} disabled={true}>
+        您还没有关联插件
+      </Button>
+    );
+  }
   return (
     <Menubar>
       {items.map((item, i) => (

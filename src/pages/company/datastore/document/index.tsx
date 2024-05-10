@@ -7,6 +7,14 @@ import { useEffect, type FC } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDocumentStore } from './store/row';
 import Display from '@/pages/company/datastore/document/display.tsx';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/ui/tabs.tsx';
+import { Card, CardContent } from '@/components/ui/card.tsx';
+import Mapping from '@/pages/company/datastore/document/mapping';
 
 interface DocumentsProps {}
 
@@ -48,7 +56,26 @@ const Documents: FC<DocumentsProps> = () => {
             <div className='flex w-[200px] flex-row justify-end space-x-2'></div>
           </div>
           <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
-            <Display mode={datastore?.mode || 0} />
+            <Tabs defaultValue='dataset'>
+              <TabsList className='grid w-[300px] grid-cols-2'>
+                <TabsTrigger value='dataset'>数据集</TabsTrigger>
+                <TabsTrigger value='mapping'>映射关系</TabsTrigger>
+              </TabsList>
+              <TabsContent value='dataset'>
+                <Card>
+                  <CardContent className='space-x-2 pt-4'>
+                    <Display mode={datastore?.mode || 0} />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              <TabsContent value='mapping'>
+                <Card>
+                  <CardContent className='space-x-2 pt-4'>
+                    <Mapping />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
           </div>
         </LayoutBody>
       </Layout>
