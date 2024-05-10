@@ -1,5 +1,4 @@
-import { FC } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { Button } from '@/components/custom/button.tsx';
 import {
   Dialog,
   DialogContent,
@@ -8,32 +7,69 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog.tsx';
-import { Button } from '@/components/custom/button.tsx';
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs.tsx';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card.tsx';
-import { Label } from '@/components/ui/label.tsx';
-import { Input } from '@/components/ui/input.tsx';
+import { bo } from '@/wailsjs/go/models';
+import { GetMapping } from '@/wailsjs/go/service/Datastore';
 import { IconEdit } from '@tabler/icons-react';
+import { FC, useEffect, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import BaseCard from '../components/base-card';
+import MappingCard from '../components/mapping-card';
+import { list } from '../data/init';
+import { useMapping } from '../store/mapping';
 
 interface FormProps {
   id: number;
 }
 
-const UpdateMapping: FC<FormProps> = ({}) => {
-  const methods = useForm();
-  const onSubmit = (data: any) => console.log(data);
+const UpdateMapping: FC<FormProps> = ({ id }) => {
+  const form = useForm();
+  const { update } = useMapping();
+  const onSubmit = (data: any) => {
+    update({ ...data, id: id });
+  };
+
+  const [currentTab, setCurrentTab] = useState('base');
+
+  useEffect(() => {
+    form.setValue('mappings', list);
+  }, []);
+
+  useEffect(() => {
+    if (id) {
+      GetMapping(Number(id)).then((res: bo.GetMappingResp) => {
+        if (res.error) {
+          return;
+        }
+        console.log(res.mapping);
+        const sets = merge(res.mapping?.mappings || []);
+        form.setValue('mappings', sets);
+        form.setValue('name', res.mapping?.name);
+        form.setValue('is_default', res.mapping?.is_default);
+        form.setValue('desc', res.mapping?.desc);
+      });
+    }
+  }, [id]);
+
+  const merge = (sets: any[]): any[] => {
+    const result: any[] = [];
+    list.forEach((item) => {
+      const s = sets.find((s) => s.to_key === item.to_key);
+      if (s) {
+        s.fieldType = item.fieldType;
+        s.tips = item.tips;
+        result.push(s);
+      } else {
+        result.push(item);
+      }
+    });
+    return result;
+  };
 
   return (
     <Dialog>
@@ -42,70 +78,31 @@ const UpdateMapping: FC<FormProps> = ({}) => {
           <IconEdit className='h-4 w-4' />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='max-w-[850px]'>
         <DialogHeader>
           <DialogTitle>映射处理</DialogTitle>
           <DialogDescription>
             设置一种映射关系，用于插件之间的数据交换。
           </DialogDescription>
         </DialogHeader>
-        <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <Tabs defaultValue='base' className='w-[400px]'>
+        <FormProvider {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <Tabs
+              defaultValue='base'
+              value={currentTab}
+              onValueChange={setCurrentTab}
+            >
               <TabsList className='grid w-full grid-cols-2'>
                 <TabsTrigger value='base'>基础信息</TabsTrigger>
                 <TabsTrigger value='mapping'>映射关系配置</TabsTrigger>
               </TabsList>
               <TabsContent value='base'>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Account</CardTitle>
-                    <CardDescription>
-                      Make changes to your account here. Click save when you're
-                      done.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className='space-y-2'>
-                    <div className='space-y-1'>
-                      <Label htmlFor='name'>Name</Label>
-                      <Input id='name' defaultValue='Pedro Duarte' />
-                    </div>
-                    <div className='space-y-1'>
-                      <Label htmlFor='username'>Username</Label>
-                      <Input id='username' defaultValue='@peduarte' />
-                    </div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button>Save changes</Button>
-                  </CardFooter>
-                </Card>
+                <BaseCard setCurrentTab={setCurrentTab} />
               </TabsContent>
               <TabsContent value='mapping'>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Password</CardTitle>
-                    <CardDescription>
-                      Change your password here. After saving, you'll be logged
-                      out.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className='space-y-2'>
-                    <div className='space-y-1'>
-                      <Label htmlFor='current'>Current password</Label>
-                      <Input id='current' type='password' />
-                    </div>
-                    <div className='space-y-1'>
-                      <Label htmlFor='new'>New password</Label>
-                      <Input id='new' type='password' />
-                    </div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button>Save password</Button>
-                  </CardFooter>
-                </Card>
+                <MappingCard setCurrentTab={setCurrentTab} />
               </TabsContent>
             </Tabs>
-            <Button type='submit'>提交</Button>
           </form>
         </FormProvider>
       </DialogContent>

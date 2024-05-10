@@ -1,5 +1,4 @@
-import { FC, useEffect, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { Button } from '@/components/custom/button.tsx';
 import {
   Dialog,
   DialogContent,
@@ -8,7 +7,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog.tsx';
-import { Button } from '@/components/custom/button.tsx';
 import {
   Tabs,
   TabsContent,
@@ -16,15 +14,21 @@ import {
   TabsTrigger,
 } from '@/components/ui/tabs.tsx';
 import { IconPlus } from '@tabler/icons-react';
-import BaseCard from './base-card.tsx';
-import MappingCard from './mapping-card.tsx';
+import { FC, useEffect, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import BaseCard from '../components/base-card.tsx';
+import MappingCard from '../components/mapping-card.tsx';
 import { list } from '../data/init.ts';
+import { useMapping } from '../store/mapping.ts';
 
 interface FormProps {}
 
 const CreateMapping: FC<FormProps> = ({}) => {
   const methods = useForm();
-  const onSubmit = (data: any) => console.log(data);
+  const { add } = useMapping();
+  const onSubmit = (data: any) => {
+    add(data);
+  };
 
   const [currentTab, setCurrentTab] = useState('base');
 

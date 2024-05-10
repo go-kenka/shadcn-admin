@@ -103,11 +103,13 @@ function Sheet() {
   }, []);
 
   useEffect(() => {
-    GetSheetData(Number(did)).then((res) => {
-      if (res.data) {
-        setData((res.data as any) ?? getDefaultWorkbookData({ did }));
-      }
-    });
+    if (did) {
+      GetSheetData(Number(did)).then((res) => {
+        if (res && res.data) {
+          setData((res.data as any) ?? getDefaultWorkbookData({ did }));
+        }
+      });
+    }
   }, [did]);
 
   useEffect(() => {
@@ -185,7 +187,7 @@ function Sheet() {
           {selections?.startRow + 1 + '-' + (selections?.endRow + 1)}
         </span>
       </div>
-      <div className='h-[calc(100vh-230px)] rounded'>
+      <div className='h-[calc(100vh-320px)] rounded'>
         <div
           style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
         >

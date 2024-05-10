@@ -1,4 +1,4 @@
-const defaultFn = `
+export const defaultFn = `
   /**
    * 生成数据
    * @constructor
