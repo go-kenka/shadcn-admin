@@ -4,6 +4,7 @@ import {
   CreateMapping,
   GetMapping,
   SearchMapping,
+  SetBinding,
   UpdateMapping,
 } from '@/wailsjs/go/service/Datastore';
 import { create } from 'zustand';
@@ -14,6 +15,7 @@ interface MappingState {
   get: (id: number) => Promise<bo.Mapping | undefined>;
   add: (req: bo.CreateMappingReq) => Promise<void>;
   update: (req: bo.UpdateMappingReq) => Promise<void>;
+  binding: (aid: number, mid: number, config: any) => Promise<void>;
   delete: (id: number) => Promise<void>;
   search: (did: number) => Promise<void>;
 }
@@ -79,6 +81,21 @@ export const useMapping = create<MappingState>()(
           }
           return cm;
         });
+      });
+    },
+    binding: async (aid: number, mid: number, config: any) => {
+      const resp = await SetBinding(aid, mid, config);
+      if (resp.error) {
+        toast({
+          title: '提示',
+          description: `出错了, 错误内容：${resp.error}`,
+        });
+        return;
+      }
+
+      toast({
+        title: '提示',
+        description: '设置成功',
       });
     },
     delete: async (_id: number) => {

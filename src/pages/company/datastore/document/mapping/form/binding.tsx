@@ -26,16 +26,25 @@ import {
 import { bo } from '@/wailsjs/go/models';
 import { SearchAdapters } from '@/wailsjs/go/service/Adapter';
 import { IconCirclesRelation } from '@tabler/icons-react';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { GetBindingData } from '@/wailsjs/go/service/Datastore';
+import { useMapping } from '../store/mapping.ts';
 
 interface FormProps {
   id: number;
 }
 
-const BindingForm: FC<FormProps> = ({}) => {
-  const form = useForm();
+interface SubmitData {
+  event: string; // 事件类型
+  data: any;
+}
+
+const BindingForm: FC<FormProps> = ({ id }) => {
+  const ref = useRef<HTMLIFrameElement>(null);
+  const form = useForm({});
   const [data, setData] = useState<bo.Adapter[]>([]);
+  const { binding } = useMapping();
 
   useEffect(() => {
     SearchAdapters({ id: 0, name: '' }).then((res) => {
@@ -45,7 +54,44 @@ const BindingForm: FC<FormProps> = ({}) => {
     });
   }, []);
 
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = (data: any) => {
+    binding(Number(data.aid), id, data.config);
+  };
+
+  useEffect(() => {
+    window.addEventListener('message', onMessage, false);
+  }, []);
+
+  const onMessage = (event: MessageEvent<SubmitData>) => {
+    if (event) {
+      // 获取数据
+      const message = event.data;
+      if (message.event === 'submit') {
+        // 保存数据
+        form.setValue('config', message.data);
+      }
+    }
+  };
+
+  const onAdapterChange = async (v: string) => {
+    if (ref) {
+      const iframe = ref.current;
+      if (iframe) {
+        // 获取以前保存的数据
+        const data = await GetBindingData(Number(v), id);
+        if (data.error) {
+          console.error(data.error);
+          return;
+        }
+        console.log(data.data);
+        // 发送数据到插件
+        iframe.contentWindow?.postMessage(
+          { event: 'init', data: data.data },
+          '*'
+        );
+      }
+    }
+  };
 
   return (
     <Dialog>
@@ -62,7 +108,7 @@ const BindingForm: FC<FormProps> = ({}) => {
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
             <Card className='h-[500px] w-full p-4'>
-              <CardContent className='flex flex-col h-full'>
+              <CardContent className='flex h-full flex-col'>
                 <FormField
                   control={form.control}
                   name={'aid'}
@@ -70,7 +116,10 @@ const BindingForm: FC<FormProps> = ({}) => {
                     <FormItem>
                       <FormLabel>插件</FormLabel>
                       <Select
-                        onValueChange={field.onChange}
+                        onValueChange={(v) => {
+                          field.onChange(v);
+                          onAdapterChange(v);
+                        }}
                         value={field.value}
                       >
                         <FormControl>
@@ -89,11 +138,12 @@ const BindingForm: FC<FormProps> = ({}) => {
                     </FormItem>
                   )}
                 />
-                <div className='mt-4 flex-1 flex flex-col'>
+                <div className='mt-4 flex flex-1 flex-col'>
                   <Label>参数配置</Label>
-                  <div className='mt-2 rounded border flex-1'>
+                  <div className='mt-2 flex-1 rounded border'>
                     <iframe
-                      src='http://localhost:51234/plugins/test01/v1.0.0/index.html'
+                      ref={ref}
+                      src='http://localhost:51234/plugins/MyAdapter/1.0/'
                       className='!h-full w-full'
                     ></iframe>
                   </div>
