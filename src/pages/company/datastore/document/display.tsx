@@ -1,9 +1,9 @@
-import { type FC } from 'react';
 import Loader from '@/components/loader.tsx';
-import { useDocumentStore } from '@/pages/company/datastore/document/store/row.ts';
-import { getColumns } from '@/pages/company/datastore/document/components/columns.tsx';
-import { DataTable } from '@/pages/company/datastore/document/components/data-table.tsx';
-import SingleSpreadsheet from '@/pages/company/datastore/document/sheet';
+import { type FC } from 'react';
+import { getColumns } from './components/columns.tsx';
+import { DataTable } from './components/data-table.tsx';
+import SingleSpreadsheet from './sheet';
+import { useDocumentStore } from './store/row.ts';
 
 interface DisplayProps {
   mode: number;

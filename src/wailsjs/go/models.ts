@@ -7,6 +7,7 @@ export namespace bo {
 	    children: Menu[];
 	}
 	export interface Manifest {
+	    id: string;
 	    name: string;
 	    version: string;
 	    desc: string;
@@ -240,6 +241,10 @@ export namespace bo {
 	}
 	export interface SearchAdapterResp {
 	    page?: PageResp;
+	    list?: Adapter[];
+	    error?: string;
+	}
+	export interface SearchBindingAdapterResp {
 	    list?: Adapter[];
 	    error?: string;
 	}

@@ -1,20 +1,20 @@
 import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
 import { Search } from '@/components/search';
 import ThemeSwitch from '@/components/theme-switch';
-import { UserNav } from '@/components/user-nav';
-import { IconArrowLeft } from '@tabler/icons-react';
-import { useEffect, type FC } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useDocumentStore } from './store/row';
-import Display from '@/pages/company/datastore/document/display.tsx';
+import { Card, CardContent } from '@/components/ui/card.tsx';
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs.tsx';
-import { Card, CardContent } from '@/components/ui/card.tsx';
-import Mapping from '@/pages/company/datastore/document/mapping';
+import { UserNav } from '@/components/user-nav';
+import { IconArrowLeft } from '@tabler/icons-react';
+import { useEffect, type FC } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import Display from './display.tsx';
+import Mapping from './mapping';
+import { useDocumentStore } from './store/row';
 
 interface DocumentsProps {}
 

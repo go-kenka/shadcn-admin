@@ -10,7 +10,7 @@ export function CreateDatastore(arg1:bo.CreateDatastoreReq):Promise<bo.SimpleRes
 
 export function CreateMapping(arg1:bo.CreateMappingReq):Promise<bo.SimpleResp>;
 
-export function DelBinding(arg1:number):Promise<bo.SimpleResp>;
+export function DelBinding(arg1:number,arg2:number):Promise<bo.SimpleResp>;
 
 export function DeleteDatastore(arg1:number):Promise<bo.SimpleResp>;
 
@@ -27,6 +27,8 @@ export function GetMapping(arg1:number):Promise<bo.GetMappingResp>;
 export function GetSheetData(arg1:number):Promise<bo.Sheet>;
 
 export function ImportData(arg1:number,arg2:string,arg3:string,arg4:string):Promise<bo.SimpleResp>;
+
+export function SearchBindingAdapters(arg1:number):Promise<bo.SearchBindingAdapterResp>;
 
 export function SearchData(arg1:bo.SearchDataReq):Promise<bo.SearchDataResp>;
 

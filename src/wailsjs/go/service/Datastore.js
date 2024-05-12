@@ -18,8 +18,8 @@ export function CreateMapping(arg1) {
   return window['go']['service']['Datastore']['CreateMapping'](arg1);
 }
 
-export function DelBinding(arg1) {
-  return window['go']['service']['Datastore']['DelBinding'](arg1);
+export function DelBinding(arg1, arg2) {
+  return window['go']['service']['Datastore']['DelBinding'](arg1, arg2);
 }
 
 export function DeleteDatastore(arg1) {
@@ -52,6 +52,10 @@ export function GetSheetData(arg1) {
 
 export function ImportData(arg1, arg2, arg3, arg4) {
   return window['go']['service']['Datastore']['ImportData'](arg1, arg2, arg3, arg4);
+}
+
+export function SearchBindingAdapters(arg1) {
+  return window['go']['service']['Datastore']['SearchBindingAdapters'](arg1);
 }
 
 export function SearchData(arg1) {

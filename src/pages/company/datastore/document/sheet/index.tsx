@@ -6,8 +6,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { toast } from '@/components/ui/use-toast';
-import UniverSheet from '@/pages/company/datastore/document/sheet/univer-sheet';
-import { getDefaultWorkbookData } from '@/pages/company/datastore/document/sheet/univer-sheet/data.ts';
 import { bo } from '@/wailsjs/go/models';
 import {
   GetDatastoreMenus,
@@ -21,6 +19,8 @@ import { debounce } from 'lodash';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { MenuBar } from '../components/menubar';
+import UniverSheet from './univer-sheet';
+import { getDefaultWorkbookData } from './univer-sheet/data.ts';
 
 const notAllowedCommands = [
   'sheet.command.insert-col',
