@@ -155,7 +155,7 @@ export const MergeData = (
 
 // 	export interface SearchDataResp {
 //     page?: PageResp;
-//     data?: Row[];
+//     data?: Usage[];
 //     fields?: Field[];
 //     error?: string;
 //   }

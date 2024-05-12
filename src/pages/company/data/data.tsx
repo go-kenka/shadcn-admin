@@ -1,6 +1,17 @@
-import {RocketIcon, StopIcon, SymbolIcon, TableIcon} from '@radix-ui/react-icons';
+import {
+  RocketIcon,
+  StopIcon,
+  SymbolIcon,
+  TableIcon,
+} from '@radix-ui/react-icons';
 
-export const adapters = [
+interface Selecter {
+  value: number;
+  label: string;
+  icon: typeof RocketIcon;
+}
+
+export const adapters: Selecter[] = [
   {
     value: 1,
     label: '适配器01',
@@ -18,8 +29,7 @@ export const adapters = [
   },
 ];
 
-
-export const modes = [
+export const modes: Selecter[] = [
   {
     value: 0,
     label: '电子表格',
@@ -29,5 +39,5 @@ export const modes = [
     value: 1,
     label: '智能表格',
     icon: TableIcon,
-  }
+  },
 ];

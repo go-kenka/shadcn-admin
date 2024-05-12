@@ -45,7 +45,7 @@ export const getColumns = (fields: bo.Field[]): ColumnDef<bo.Row>[] => [
     cell: ({ row }) => <div className='w-[120px]'>{row.getValue('id')}</div>,
     meta: { title: 'ID' },
     enableSorting: false,
-    enableHiding: false,
+    enableHiding: true,
   },
   ...fields.map((field): ColumnDef<bo.Row> => {
     return {
@@ -58,7 +58,7 @@ export const getColumns = (fields: bo.Field[]): ColumnDef<bo.Row>[] => [
         colRender(field.widget, field.width, row.getValue(field.key)),
       meta: { title: field.name },
       enableSorting: false,
-      enableHiding: false,
+      enableHiding: true,
     };
   }),
   {
@@ -91,7 +91,7 @@ export const getColumns = (fields: bo.Field[]): ColumnDef<bo.Row>[] => [
         </div>
       );
     },
-    meta: { title: '创建时间' },
+    meta: { title: '更新时间' },
   },
   {
     id: 'actions',

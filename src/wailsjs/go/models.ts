@@ -28,6 +28,72 @@ export namespace bo {
 	    // Go type: time
 	    updated_at?: any;
 	}
+	export interface AppFilter {
+	    page: number;
+	    page_size: number;
+	    key: string;
+	}
+	export interface AppVersion {
+	    id: number;
+	    publish_time: string;
+	    version: string;
+	    changelog: string;
+	}
+	export interface AppFunction {
+	    method: string;
+	    name: string;
+	    desc: string;
+	}
+	export interface Detail {
+	    detail: string;
+	    functions: AppFunction[];
+	    version_list: AppVersion[];
+	}
+	export interface AppStats {
+	    install_total: number;
+	    rating: number;
+	}
+	export interface Publisher {
+	    publisher_id: string;
+	    publisher_name: string;
+	    home_page: string;
+	    certified: boolean;
+	}
+	export interface DownloadURL {
+	    windows: string;
+	    linux: string;
+	    darwin: string;
+	}
+	export interface App {
+	    id: string;
+	    name: string;
+	    icon: string;
+	    desc: string;
+	    category: string;
+	    tags: string[];
+	    version: string;
+	    platform: string[];
+	    repository: string;
+	    // Go type: DownloadURL
+	    url?: any;
+	    tips: string;
+	    // Go type: Publisher
+	    publisher?: any;
+	    // Go type: AppStats
+	    stats?: any;
+	    // Go type: Detail
+	    detail?: any;
+	    installed: boolean;
+	    // Go type: time
+	    last_publish_time: any;
+	    // Go type: time
+	    start_publish_time: any;
+	}
+	export interface AppList {
+	    total: number;
+	    list: App[];
+	    error: string;
+	}
 	export interface Category {
 	    id?: number;
 	    aid?: number;
@@ -95,7 +161,7 @@ export namespace bo {
 	    aid?: number;
 	    default_mapping?: number;
 	    name?: string;
-	    mode?: number;
+	    mode: number;
 	    desc?: string;
 	    schema?: {[key: string]: any};
 	    fields?: Field[];

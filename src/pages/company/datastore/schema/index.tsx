@@ -19,7 +19,9 @@ export default function Schema() {
   const select = useWidgetStore.use.updateSelectedComponent();
   const setCols = useWidgetStore.use.setCols();
 
-  const [datastore, setDatastore] = useState<bo.Datastore>({});
+  const [datastore, setDatastore] = useState<bo.Datastore | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     get(id).then((ds) => {
@@ -55,9 +57,9 @@ export default function Schema() {
           <div className='flex-1'>
             <h2 className='flex items-center gap-2 text-2xl font-bold tracking-tight'>
               <IconArrowLeft onClick={back} className='cursor-pointer' />{' '}
-              {datastore.name + '（表单设计）'}
+              {datastore?.name + '（表单设计）'}
             </h2>
-            <p className='text-muted-foreground'>{datastore.desc}</p>
+            <p className='text-muted-foreground'>{datastore?.desc}</p>
           </div>
           <div className='flex w-[200px] flex-row justify-end space-x-2'></div>
         </div>

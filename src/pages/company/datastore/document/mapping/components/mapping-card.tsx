@@ -10,6 +10,7 @@ import {
 import { DialogClose } from '@/components/ui/dialog';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import BindingItem from './binding-input';
+import { ScrollArea } from '@/components/ui/scroll-area.tsx';
 
 interface MappingCardProps {
   setCurrentTab: (tab: string) => void;
@@ -26,10 +27,12 @@ function MappingCard({ setCurrentTab }: MappingCardProps) {
           左边是固定列[A-Z]，可根据需要选择类型，右边是可选列，点击右边的列名可以选择该列作为映射目标。
         </CardDescription>
       </CardHeader>
-      <CardContent className='h-[400px] space-y-2 overflow-y-auto pb-2 pt-2'>
-        {fields.map((field, index) => (
-          <BindingItem index={index} key={field.id} />
-        ))}
+      <CardContent className='pb-2 pt-2'>
+        <ScrollArea className='h-[400px]'>
+          {fields.map((field, index) => (
+            <BindingItem index={index} key={field.id} />
+          ))}
+        </ScrollArea>
       </CardContent>
       <CardFooter className={'mt-2 justify-end space-x-2'}>
         <Button

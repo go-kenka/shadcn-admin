@@ -1,14 +1,12 @@
-import { ColumnDef } from '@tanstack/react-table';
-
 import { Checkbox } from '@/components/ui/checkbox';
+import { bo } from '@/wailsjs/go/models';
+import { ColumnDef } from '@tanstack/react-table';
+import dayjs from 'dayjs';
 import { DataTableColumnHeader } from './data-table-column-header';
 import { DataTableRowActions } from './data-table-row-actions';
+import { fields } from '../data/fields.ts';
 
-import { bo } from '@/wailsjs/go/models';
-import dayjs from 'dayjs';
-import { modes } from '../../data/data';
-
-export const columns: ColumnDef<bo.Datastore>[] = [
+export const getColumns = (): ColumnDef<bo.Usage>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -43,58 +41,24 @@ export const columns: ColumnDef<bo.Datastore>[] = [
     enableSorting: false,
     enableHiding: true,
   },
-  {
-    accessorKey: 'name',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='仓库名称' />
-    ),
-    cell: ({ row }) => <div className='w-[120px]'>{row.getValue('name')}</div>,
-    meta: { title: '仓库名称' },
-    enableSorting: false,
-    enableHiding: true,
-  },
-  {
-    accessorKey: 'desc',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='详细描述' />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className='flex w-[400px] space-x-2'>
-          <span className='max-w-32 truncate font-medium sm:max-w-72 md:max-w-[31rem]'>
-            {row.getValue('desc')}
-          </span>
+  ...fields.map((field): ColumnDef<bo.Row> => {
+    return {
+      id: field.key,
+      accessorFn: (row) => `${row.data![field.key]}`,
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title={field.name} />
+      ),
+      cell: ({ row }) => (
+        <div className={`line-clamp-1 w-[100px]`}>
+          {row.getValue(field.key)}
         </div>
-      );
-    },
-    meta: { title: '详细描述' },
-    enableSorting: false,
-    enableHiding: true,
-  },
-  {
-    accessorKey: 'mode',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='模型' />
-    ),
-    cell: ({ row }) => {
-      const m = modes.find((mi) => mi.value === (row.getValue('mode') || 0));
-      if (!m) {
-        return <div className='flex w-[100px] items-center'>模型异常</div>;
-      }
-
-      return (
-        <div className='flex w-[100px] items-center'>
-          {m.icon && <m.icon className='mr-2 h-4 w-4 text-muted-foreground' />}
-          <span>{m.label}</span>
-        </div>
-      );
-    },
-    filterFn: (row, key, value) => {
-      return value.includes(row.getValue(key));
-    },
-    meta: { title: '模型' },
-    enableHiding: true,
-  },
+      ),
+      meta: { title: field.name },
+      enableSorting: false,
+      enableHiding: true,
+      enableResizing: true,
+    };
+  }),
   {
     accessorKey: 'created_at',
     header: ({ column }) => (

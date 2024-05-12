@@ -3,9 +3,7 @@ import { Table } from '@tanstack/react-table';
 
 import { Button } from '@/components/custom/button';
 import { Input } from '@/components/ui/input';
-import { modes } from '../../data/data';
-import CreateDatastore from '../form/create-datastore';
-import { DataTableFacetedFilter } from './data-table-faceted-filter';
+import CreateStore from '../form/create-store.tsx';
 import { DataTableViewOptions } from './data-table-view-options';
 
 interface DataTableToolbarProps<TData> {
@@ -28,15 +26,6 @@ export function DataTableToolbar<TData>({
           }
           className='h-8 w-[150px] lg:w-[250px]'
         />
-        <div className='flex gap-x-2'>
-          {table.getColumn('mode') && (
-            <DataTableFacetedFilter
-              column={table.getColumn('mode')}
-              title='表格类型'
-              options={modes}
-            />
-          )}
-        </div>
         {isFiltered && (
           <Button
             variant='ghost'
@@ -49,7 +38,7 @@ export function DataTableToolbar<TData>({
         )}
       </div>
       <div className='flex gap-2'>
-        <CreateDatastore />
+        <CreateStore />
         <DataTableViewOptions table={table} />
       </div>
     </div>

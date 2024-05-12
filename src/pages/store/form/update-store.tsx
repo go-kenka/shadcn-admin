@@ -11,39 +11,48 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { IconPlus } from '@tabler/icons-react';
-import type { FC } from 'react';
+import { GearIcon } from '@radix-ui/react-icons';
+import { type FC, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useCompanyStore } from '../store/company';
+import { useStore } from '../store/store.ts';
 
-interface CreateCompanyProps {}
+interface UpdateDatastoreProps {
+  id: number;
+}
 
 type IFormInput = {
   name: string;
   desc: string;
 };
 
-const CreateCompany: FC<CreateCompanyProps> = () => {
-  const { register, handleSubmit, reset } = useForm<IFormInput>();
-  const add = useCompanyStore((state) => state.add);
+const UpdateStore: FC<UpdateDatastoreProps> = ({ id }) => {
+  const { register, handleSubmit, reset, setValue } = useForm<IFormInput>();
+  const { update, list } = useStore();
+
+  useEffect(() => {
+    const d = list.find((c) => c.id === id);
+    setValue('name', d?.name || '');
+    setValue('desc', d?.desc || '');
+  }, [id]);
+
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
-    await add(data.name, data.desc);
+    await update(id, data.name, data.desc);
     reset();
   };
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>
-          <IconPlus className='mr-2 w-5' /> 添加
+        <Button variant={'outline'} size={'sm'}>
+          <GearIcon className='h-5' />
         </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
-            <DialogTitle>添加供应商</DialogTitle>
+            <DialogTitle>修改店铺</DialogTitle>
             <DialogDescription>
-              供应商是一个数据来源方，用于区别不同的供货商
+              店铺主要用于收集已经处理过的数据，用于查询和导出使用。
             </DialogDescription>
           </DialogHeader>
 
@@ -55,9 +64,10 @@ const CreateCompany: FC<CreateCompanyProps> = () => {
               <Input
                 {...register('name')}
                 className='col-span-3'
-                placeholder='请输入供应商名称'
+                placeholder='请输入店铺名称'
               />
             </div>
+
             <div className='items-center gap-4'>
               <Label htmlFor='desc' className='text-right'>
                 描述
@@ -81,4 +91,4 @@ const CreateCompany: FC<CreateCompanyProps> = () => {
   );
 };
 
-export default CreateCompany;
+export default UpdateStore;

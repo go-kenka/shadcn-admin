@@ -77,6 +77,34 @@ const router = createBrowserRouter([
         ],
       },
       {
+        path: 'store',
+        children: [
+          {
+            index: true,
+            lazy: async () => ({
+              Component: (await import('./pages/store')).default,
+            }),
+          },
+          {
+            path: ':sid/docs',
+            lazy: async () => ({
+              Component: (await import('./pages/store/document')).default,
+            }),
+          },
+        ],
+      },
+      {
+        path: 'plugin',
+        children: [
+          {
+            index: true,
+            lazy: async () => ({
+              Component: (await import('./pages/appstore')).default,
+            }),
+          },
+        ],
+      },
+      {
         path: 'chats',
         lazy: async () => ({
           Component: (await import('@/components/coming-soon')).default,
